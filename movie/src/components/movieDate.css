@@ -6,6 +6,7 @@
     transform: scale(0);
     transition: 1s;
     z-index: 0;
+    
 }
 .banner .date.active {
     visibility: visible;
@@ -23,4 +24,5 @@
     -webkit-mask: linear-gradient(#000000 0 0), linear-gradient(#000000 0 0);
     -webkit-mask-clip:text, padding-box;
     -webkit-mask-composite: xor;
+  
 }

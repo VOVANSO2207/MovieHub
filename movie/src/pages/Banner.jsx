@@ -18,10 +18,17 @@ import MovieSwiper from '../components/MovieSwiper';
     };
 
     useEffect(() => {
-        fetchData()
-    }, [])
+        fetchData();
+    }, []);
     const handleSlideChange = id => {
-        console.log(id);
+       const newMovies = movies.map(movie => {
+        movie.active = false;
+        if (movie._id === id ){
+            movie.active = true;
+        }
+        return movie 
+       });
+       setMovies(newMovies);
     }
     return (
         <div className="banner">
@@ -37,7 +44,7 @@ import MovieSwiper from '../components/MovieSwiper';
                           </MovieContent>
                         </div>
                         <div className="col-lg-6 col-md-12">
-                            <MovieDate></MovieDate>
+                            <MovieDate movie={movie}></MovieDate>
                             <PlayBtn movie={movie}></PlayBtn>
                         </div>
                     </div>
