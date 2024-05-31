@@ -1,5 +1,5 @@
 import React from 'react';
-import './movieSwiper.css';
+import '../css/movieSwiper.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -31,7 +31,6 @@ function MovieSwiper({slides,slideChange}) {
       modules={[Autoplay, EffectCoverflow]} 
       className="movieSwiper"
     >
-   
         {
             slides.map(slide => (
                 <SwiperSlide key={slide._id}>

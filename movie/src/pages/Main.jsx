@@ -4,13 +4,14 @@ import Schedule from './Schedule';
 import Trend from './Trend';
 import Blog from './Blog';
 
-function Main() {
+function Main({ searchQuery }) {
   return (
     <main>
-        <Schedule></Schedule>
+          
+        <Schedule searchQuery={searchQuery} />
         <Trend></Trend>
         <Blog></Blog>
-      
+          
     </main>
   )
 }

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import './playBtn.css';
+import '../css/playBtn.css';
 import Modal from './Modal';
 function PlayBtn({movie}) {
     const [modal, setModal] = useState(false)

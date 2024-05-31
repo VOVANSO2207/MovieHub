@@ -1,5 +1,5 @@
 import React from 'react'
-import './movieContent.css';
+import '../css/movieContent.css';
 import titleImg from '../images/transformer-title.png';
 import Button from './Button';
 function MovieContent ({movie}){
@@ -9,7 +9,7 @@ function MovieContent ({movie}){
     <h4><span>{movie.year}</span>
         <span><i>{movie.ageLimit}</i></span>
         <span>{movie.length}</span>
-        <span>{movie.category}</span>
+        <span>{movie.category_name}</span>
       
     </h4>
         <p>{movie.description}

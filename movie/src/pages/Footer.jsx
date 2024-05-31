@@ -89,7 +89,7 @@ function Footer() {
             <div className="copyright">
                 &copy; CopyRight{' '}
                 <strong>
-                    <span>DStudio Technology</span>
+                    <span> My Group</span>
                 </strong>
                 .All Rights Resversd
 

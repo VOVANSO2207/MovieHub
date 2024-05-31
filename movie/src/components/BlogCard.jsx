@@ -1,6 +1,6 @@
 // Trong BlogCard.js
 import React from 'react';
-import './blogCard.css';
+import '../css/blogCard.css';
 
 function BlogCard({blog}) {
   return (

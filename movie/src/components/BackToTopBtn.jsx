@@ -1,5 +1,5 @@
 import React from 'react'
-import './backToTopBtn.css';
+import '../css/backToTopBtn.css';
 function BackToTopBtn({scroll}) {
     const backToTop = () => {
         window.scrollTo(0 ,0);

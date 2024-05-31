@@ -1,0 +1,607 @@
+.list-group a:hover{
+    background-color: #FFC0CB;
+    color: #FF3333;
+    cursor: pointer;
+  }
+  .list-group a{
+    background-color:#1F1B1B;
+  }
+  .list-group-item{
+    border: none !important;
+  }
+  .table-movie th{
+    background-color:#FFC0CB
+    ;
+  
+  }
+  
+  .modal-overlay1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Mờ */
+    color: white;
+    z-index: 9998;
+    
+  }
+  
+  .modal1 {
+    background-color:#7B839E;
+    width: 700px;
+    height: 700px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    color: black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+   
+  }
+  
+  
+  .modal-header1 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  image {
+    /* Thêm các thuộc tính CSS ở đây */
+    display: block; /* Đảm bảo hình ảnh được hiển thị như một khối */
+    max-width: 100%; /* Đảm bảo hình ảnh không bị tràn khỏi container */
+    height: auto; /* Đảm bảo tỷ lệ khung hình được giữ nguyên */
+    margin-bottom: 10px;
+  }
+  input[type="text"] {
+    width: 100%; 
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #2F2F33;
+  }
+  label {
+    /* Thêm các thuộc tính CSS ở đây */
+    display: block; /* Hiển thị nhãn trên một dòng mới */
+    margin-bottom: 6px; /* Khoảng cách giữa các nhãn */
+    font-weight: bold; /* In đậm nhãn */
+    color: white; /* Màu sắc của nhãn */
+  }
+  .modal-header h3 {
+    margin: 0;
+  }
+  
+  .modal-header button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  .modal-body form label {
+    display: block;
+    margin-bottom: 5px; /* Khoảng cách giữa các label */
+  }
+  
+  .modal-body form input {
+    display: block;
+    margin-bottom: 10px; /* Khoảng cách giữa các input */
+  }
+  
+  
+  .input-group {
+    display: flex; /* Use flexbox for horizontal layout */
+    flex-direction: row;
+    justify-content: space-between; /* Distribute inputs evenly */
+    margin-bottom: 10px; /* Add some spacing for readability */
+  }
+  
+  .input-group label {
+    margin-right: 10px; /* Add spacing between label and input */
+  }
+  
+  
+  /* animition */
+  /* Đặt kiểu dáng chung cho trang */
+  body {
+    background-color: #121212;
+    color: white;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container-fluid {
+    margin-top: 20px;
+  }
+  
+  /* Kiểu dáng và hiệu ứng cho các thẻ div */
+  .p-3.bg-black.shadow-sm.d-flex {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .p-3.bg-black.shadow-sm.d-flex:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  .p-3.bg-white.shadow-sm.d-flex {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .p-3.bg-white.shadow-sm.d-flex:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  /* Kiểu dáng và hiệu ứng cho bảng */
+  table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  table th,
+  table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  table th {
+    background-color: #f4f4f4;
+    color: #333;
+  }
+  
+  table tbody tr {
+    background-color: white;
+    color: black;
+    transition: background-color 0.3s ease;
+  }
+  
+  table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Hiệu ứng fadeIn cho bảng */
+  @keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  
+  /* Kiểu dáng và hiệu ứng cho ảnh */
+  table img {
+    transition: transform 0.3s ease;
+  }
+  
+  table img:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Kiểu dáng và hiệu ứng cho các hàng và cột */
+  tbody tr {
+    animation: fadeInRow 0.5s ease-in-out;
+  }
+  
+  tbody tr:nth-child(even) {
+    animation-delay: 0.1s;
+  }
+  
+  tbody tr:nth-child(odd) {
+    animation-delay: 0.2s;
+  }
+  
+  @keyframes fadeInRow {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+  }
+  
+  
+  /* Hiệu ứng fade-in cho form container */
+  @keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+  }
+  
+  /* Hiệu ứng slide-in từ dưới lên cho các input */
+  @keyframes slideInUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+  }
+  
+  /* Hiệu ứng scale-in cho ảnh */
+  @keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+  }
+  
+  /* Áp dụng hiệu ứng cho form container */
+  form {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  /* Áp dụng hiệu ứng cho từng input và textarea */
+  form .row .col, form div, form select, form input[type="file"] {
+    animation: slideInUp 0.5s ease-in-out;
+    animation-fill-mode: both;
+    animation-delay: 0.3s;
+  }
+  
+  /* Hiệu ứng scale-in cho ảnh tiêu đề và ảnh cast */
+  #image-drop img, .cast-image {
+    animation: scaleIn 0.5s ease-in-out;
+    animation-fill-mode: both;
+    animation-delay: 0.3s;
+  }
+  
+  
+  
+  .dropdown1 {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .dropdown1 option {
+    padding: 10px;
+  }
+  
+  
+  .dropdown2 {
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .dropdown1 option {
+    padding: 10px;
+  }
+  
+  /* CSS cho Success Modal */
+  .success-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+  }
+  
+  .success-modal {
+    background-color: #343a40;
+    padding: 20px;
+    border-radius: 5px;
+    width: 300px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease-in-out;
+  }
+  
+  @keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+  }
+  
+  .success-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    animation: fadeInDown 0.5s ease-in-out;
+  }
+  
+  @keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  }
+  
+  .success-modal .modal-header h3 {
+    margin: 0;
+    color: #28a745; /* Màu xanh lá cho thông báo thành công */
+  }
+  
+  .success-modal .modal-header button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .success-modal .modal-body button {
+    margin-top: 20px;
+    background-color: #28a745;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    animation: zoomIn 0.5s ease-in-out;
+  }
+  
+  @keyframes zoomIn {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+  }
+  /* Modal */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 300px;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .modal-header h3 {
+    margin: 0;
+  }
+  
+  .modal-body {
+    margin-top: 10px;
+  }
+  
+  .modal-body input {
+    width: calc(100% - 40px);
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .modal-body button {
+    background-color: #fc1c03;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  
+  @keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+  }
+  .button-close {
+    color: white;
+    padding: 5px;
+    background: red;
+    border: none;
+    cursor: pointer;
+    outline: none; 
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .button-close::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%; 
+    height: 300%;
+    background: rgba(255, 255, 255, 0.3); 
+    border-radius: 50%; 
+    animation: ripple 1s linear infinite; 
+  }
+  
+  @keyframes ripple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3);
+        opacity: 0;
+    }
+  }
+  
+  .modal-overlay2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Mờ */
+    color: white;
+    z-index: 9998;
+    
+  }
+  
+  .modal2 {
+    background-color:#7B839E;
+    width: 300px;
+    height: 300px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    color: black;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+   
+  }
+  
+  
+  .modal-header2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  
+  .modal-overlay4 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal4 {
+    background: black;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+  }
+  
+  .modal-header4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .button-close {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+  }
+  
+  .modal-body4 img {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  
+  
+  
+  .marquee {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  
+  .marquee-content {
+    display: inline-block;
+    width: max-content; 
+    animation: marqueeAnimation 20s linear infinite;
+  }
+  
+  /* @keyframes marqueeAnimation {
+    0% {
+      transform: translateX(0%);
+    }
+    50% {
+      transform: translateX(-50%); 
+    }
+    100% {
+      transform: translateX(-100%); 
+    }
+  } */
+  

@@ -1,5 +1,5 @@
 import React from 'react';
-import './footerNavItem.css';
+import '../css/footerNavItem.css';
 function FooterNavItem({name}) {
   return (
         <li>

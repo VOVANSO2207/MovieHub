@@ -1,5 +1,5 @@
 import React from 'react'
-import './movieDate.css';
+import '../css/movieDate.css';
 
 function MovieDate({ movie }) {
     return (
