@@ -13,14 +13,14 @@ const LoginPage = () => {
             setError('Vui lòng điền đầy đủ thông tin');
             return;
         }
-        
+
         const user = login(email, password);
 
         if (user) {
-            if (user.role === 'admin') {
-                 navigate('/dashboard');
-            } else {
+            if (user.role === 'admin3') {
                  navigate('/');
+            } else {
+                navigate('/dashboard');
             }
         } else {
             setError('Thông tin đăng nhập không chính xác');
@@ -28,7 +28,8 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="login-container">
+        <div className="login-main">
+                  <div className="login-container">
             <h2>Đăng nhập</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <div className="form-group">
@@ -54,6 +55,8 @@ const LoginPage = () => {
             <div className="circle"></div>
           
         </div>
+        </div>
+      
     );
 };
 

@@ -424,6 +424,86 @@ app.post('/actors', (req, res) => {
   });
 });
 
+// API DELETE MOVIES 
+//API endpoint to delete a movie by ID
+app.delete('/movies/:id', (req, res) => {
+  const { id } = req.params;
+
+  // First, delete the related comments
+  const deleteCommentsQuery = 'DELETE FROM comments WHERE movie_id = ?';
+  connection.query(deleteCommentsQuery, [id], (commentsError) => {
+    if (commentsError) {
+      console.error('Error deleting comments:', commentsError);
+      res.status(500).send('Error deleting comments');
+      return;
+    }
+
+    // Then, delete the movie
+    const deleteMovieQuery = 'DELETE FROM movies WHERE _id = ?';
+    connection.query(deleteMovieQuery, [id], (movieError, movieResults) => {
+      if (movieError) {
+        console.error('Error deleting movie:', movieError);
+        res.status(500).send('Error deleting movie');
+        return;
+      }
+
+      if (movieResults.affectedRows === 0) {
+        res.status(404).send('Movie not found');
+        return;
+      }
+
+      res.status(200).send('Movie deleted successfully');
+    });
+  });
+});
+
+
+// API endpoint to get movie details by ID
+app.get('/movies/:id', (req, res) => {
+  const { id } = req.params;
+  const movieQuery = `
+    SELECT *
+    FROM movies
+    WHERE _id = ?
+  `;
+
+  connection.query(movieQuery, [id], (error, results) => {
+    if (error) {
+      console.error('Error fetching movie details:', error);
+      res.status(500).send('Error fetching movie details');
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).send('Movie not found');
+      return;
+    }
+
+    res.json(results[0]);
+  });
+});
+
+// API endpoint to update movie details
+app.put('/movies/:id', (req, res) => {
+  const { id } = req.params;
+  const { title, year, date, ageLimit, length, language, category_id, type, description, active } = req.body;
+
+  const movieUpdateQuery = `
+    UPDATE movies
+    SET title = ?, year = ?, date = ?, ageLimit = ?, length = ?, language = ?, category_id = ?, type = ?, description = ?, active = ?
+    WHERE _id = ?
+  `;
+
+  connection.query(movieUpdateQuery, [title, year, date, ageLimit, length, language, category_id, type, description, active, id], (error, results) => {
+    if (error) {
+      console.error('Error updating movie details:', error);
+      res.status(500).send('Error updating movie details');
+      return;
+    }
+
+    res.status(200).send('Movie details updated successfully');
+  });
+}); 
+
 // Start the server
 
 app.listen(8081, () => {

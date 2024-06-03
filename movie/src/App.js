@@ -14,7 +14,8 @@ import Home from './pages/Home';
 import Movielist from './pages/Movielist';
 import Movieadd from './pages/Movieadd';
 import Category from './pages/Category';
-// import LoginPage from './components/LoginPage';
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage';
 // import RegisterPage from './components/RegisterPage';
 // import ProtectedRoute from './components/ProtectedRoute';
 
@@ -58,7 +59,8 @@ function App() {
             </>
           }
         />
-       {/* <Route path="/login" element={<LoginPage></LoginPage>} />  */}
+       <Route path="/login" element={<LoginPage></LoginPage>} /> 
+       <Route path="/register" element={<RegisterPage></RegisterPage>} /> 
         <Route path="/watch/:movieId" element={<WatchMovie />} />
         <Route
           path="/dashboard"
