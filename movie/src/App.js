@@ -14,6 +14,10 @@ import Home from './pages/Home';
 import Movielist from './pages/Movielist';
 import Movieadd from './pages/Movieadd';
 import Category from './pages/Category';
+// import LoginPage from './components/LoginPage';
+// import RegisterPage from './components/RegisterPage';
+// import ProtectedRoute from './components/ProtectedRoute';
+
 
 function App() {
   const [toggle, setToggle] = useState(true);
@@ -54,6 +58,7 @@ function App() {
             </>
           }
         />
+       {/* <Route path="/login" element={<LoginPage></LoginPage>} />  */}
         <Route path="/watch/:movieId" element={<WatchMovie />} />
         <Route
           path="/dashboard"
@@ -87,6 +92,11 @@ function App() {
             </DashBoardLayout>
           }
         />
+       
+                {/* <Route path="/register" element={<RegisterPage />} />
+                <Route path="/admin" element={<ProtectedRoute component={AdminPage} role="admin" />} />
+                <Route path="/user" element={<ProtectedRoute component={UserPage} role="user" />} />
+                <Route path="/" element={<LoginPage />} /> */} 
         {/* Thêm các Route khác nếu cần */}
       </Routes>
     </Router>

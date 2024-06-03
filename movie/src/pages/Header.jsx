@@ -4,6 +4,7 @@ import NavListItem from '../components/NavListItem';
 import navListData from '../data/navListData';
 import Search from '../components/Search';
 import Button from '../components/Button';
+import { Link } from 'react-router-dom';
 
 const Header = ({ scroll, onSearch }) => {
   const [navList, setNavList] = useState(navListData);
@@ -21,9 +22,12 @@ const Header = ({ scroll, onSearch }) => {
 
   return (
     <header className={`${scroll > 100 ? 'scrolled' : ''}`}>
-      <a href="#" className="logo">
+      <Link to ="/" className='logo'>
+        Movie.net 
+      </Link>
+      {/* <a href="#" className="logo">
         MOVIE
-      </a>
+      </a> */}
       <ul className="nav">
         {navList.map(nav => (
           <NavListItem key={nav._id} nav={nav} navOnClick={handleNavOnClick} />

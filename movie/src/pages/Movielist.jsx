@@ -22,7 +22,7 @@ function MovieList() {
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const [deleteIndex, setDeleteIndex] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1); 
+    const [currentPage, setCurrentPage] = useState(1);
     const moviesPerPage = 5;
 
     useEffect(() => {
@@ -112,9 +112,11 @@ function MovieList() {
                     <tr className="table-movie" style={{ background: 'red' }}>
                         <th scope="col">#</th>
                         <th scope="col">Image</th>
+                        <th scope="col">Video</th>
                         <th scope="col">Name</th>
                         <th scope="col">Category</th>
                         <th scope="col">Language</th>
+                        <th scope="col">Date</th>
                         <th scope="col">Year</th>
                         <th scope="col">Hour</th>
                         <th scope="col">Action</th>
@@ -124,12 +126,27 @@ function MovieList() {
                     {currentMovies.map((movie, index) => (
                         <tr key={index}>
                             <th scope="row">{indexOfFirstMovie + index + 1}</th>
-                            <td><img src={movie.previewImg} alt="Movie Poster" style={{ maxWidth: '100px' }} /></td>
+                            <td><img src={`../assets/movies/${movie.previewImg}`} alt="Movie Poster" style={{ maxWidth: '200px', maxHeight: '200px',borderRadius : '10px' }} /></td>
+                            <td> {movie.video.includes("youtube.com") ? (
+                                <iframe
+                                    src={movie.video}
+                                    controls
+                                    style={{ maxWidth: '200px', maxHeight: '200px' }}
+                                />
+                            ) : (
+                                <video
+                                    src={`../assets/movies/${movie.video}`}
+                                    controls
+                                    style={{ maxWidth: '200px', maxHeight: '200px' , borderRadius : '15px'}}
+                                />
+                            )}</td>
                             <td>{movie.title}</td>
                             <td>{movie.category_name}</td>
                             <td>{movie.language}</td>
+                            <td>{movie.date}</td>
                             <td>{movie.year}</td>
-                            <td>{movie.length}hrs</td>
+                            <td>{movie.length} hrs</td>
+                            
                             <td>
                                 <button className="btn btn-warning" onClick={() => handleEdit(indexOfFirstMovie + index)}>Edit</button>
                                 <button className="btn btn-danger" onClick={() => handleDelete(indexOfFirstMovie + index)}>Delete</button>

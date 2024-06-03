@@ -26,7 +26,7 @@ function Footer() {
                 <div className="row gy-4">
                     <div className="col-lg-5 col-md-12 footer-info">
                         <a href="/" className="logo d-flex align-items-center">
-                            <span>CINEMA</span>
+                            <span>MOVIE.NET</span>
                         </a>
                         <p>
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, debitis libero cumque neque nemo doloremque deserunt nam perferendis, iure qui exercitationem aperiam soluta beatae magnam quo. Cum omnis ab quae!

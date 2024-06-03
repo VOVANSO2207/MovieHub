@@ -36,7 +36,7 @@
                 {
                     movies && movies.length > 0 && movies.map(movie=>(
                         <div className="movie">
-                        <img src={movie.bgImg} alt="BackGround Image" className={`bgImg ${movie.active ? 'active' :undefined}`} />
+                        <img src={`../assets/movies/${movie.bgImg}`} alt="BackGround Image" className={`bgImg ${movie.active ? 'active' :undefined}`} />
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-lg-6 col-md-12">
@@ -57,7 +57,7 @@
                     
                     movies && movies.length > 0 &&  <MovieSwiper slides={movies} slideChange={handleSlideChange}></MovieSwiper>
                 }
-            
+                
             </div>
         )
     }

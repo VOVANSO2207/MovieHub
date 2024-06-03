@@ -5,7 +5,7 @@ import Button from './Button';
 function MovieContent ({movie}){
   return (
     <div className={`content ${movie.active ? 'active': undefined}`}>
-    <img src={movie.titleImg} alt="Movie Title" className="movie-title" />
+    <img src={`../assets/movies/${movie.titleImg}`} alt="Movie Title" className="movie-title" />
     <h4><span>{movie.year}</span>
         <span><i>{movie.ageLimit}</i></span>
         <span>{movie.length}</span>
