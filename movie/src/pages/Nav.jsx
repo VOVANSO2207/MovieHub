@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/collapse';
-
+import { Link } from 'react-router-dom';
 function Nav({ Toggle }) {
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-transparent">
@@ -40,6 +40,7 @@ function Nav({ Toggle }) {
                             <a className="dropdown-item" href="#">Profile</a>
                             <a className="dropdown-item" href="#">Setting</a>
                             <a className="dropdown-item" href="#">Logout</a>
+                            <Link to="/" className="dropdown-item">Home Page</Link>
                         </div>
                     </li>
                 </ul>

@@ -15,7 +15,12 @@ function Sidebar() {
     const handleNavigate2 = () => {
         navigate('/category'); 
     };
-    
+    const handleNavigate3 = () => {
+        navigate('/user'); 
+    };
+    const handleNavigate4 = () => {
+        navigate('/actor'); 
+    };
     return (
         <div className=' sidebar p-2 mt-5' id="sidebar">
             <div className='m-2'>
@@ -43,11 +48,11 @@ function Sidebar() {
                 </a>
                 <a className='list-group-item py-2'>
                     <i style={{color: 'grey'}} className='bi bi-house fs-4 me-3'></i>
-                    <span className='fs-8' style={{color: 'grey', fontWeight: 'bold', padding: '5px'}}>Users</span>
+                    <button onClick={handleNavigate3} className='fs-8' style={{ border: 'none', background: 'transparent',color: 'grey', fontWeight: 'bold', padding: '5px' }}>User</button>
                 </a>
                 <a className='list-group-item py-2'>
                     <i style={{color: 'grey'}} className='bi bi-house fs-4 me-3'></i>
-                    <span className='fs-8' style={{color: 'grey', fontWeight: 'bold', padding: '5px'}}>Update</span>
+                    <button onClick={handleNavigate4} className='fs-8' style={{ border: 'none', background: 'transparent',color: 'grey', fontWeight: 'bold', padding: '5px' }}>Actors</button>
                 </a>
                 <a className='list-group-item py-2'>
                     <i style={{color: 'grey'}} className='bi bi-house fs-4 me-3'></i>

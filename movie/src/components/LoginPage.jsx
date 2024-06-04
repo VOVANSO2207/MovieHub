@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../auth.js';
 import '../css/loginPage.css';
+
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,10 +18,10 @@ const LoginPage = () => {
         const user = login(email, password);
 
         if (user) {
-            if (user.role === 'admin3') {
-                 navigate('/');
+            if (user.role === 'admin') {
+                navigate('/admin');
             } else {
-                navigate('/dashboard');
+                navigate('/user');
             }
         } else {
             setError('Thông tin đăng nhập không chính xác');
@@ -29,12 +30,13 @@ const LoginPage = () => {
 
     return (
         <div className="login-main">
-                  <div className="login-container">
-            <h2>Đăng nhập</h2>
+            <div className="login-container">
+            <h2 className='title-login'>Login</h2>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <div className="form-group">
                 <label>Email</label>
                 <input
+                className='input'
                     type="email"
                     placeholder="Enter your email"
                     value={email}
@@ -44,6 +46,7 @@ const LoginPage = () => {
             <div className="form-group">
                 <label>Password</label>
                 <input
+                className='input'
                     type="password"
                     placeholder="Enter your password"
                     value={password}
@@ -51,12 +54,10 @@ const LoginPage = () => {
                 />
             </div>
             <button onClick={handleLogin} className="login-button">Login</button>
-            <p>Bạn chưa có tài khoản? <Link to="/register">Đăng ký</Link></p>
-            <div className="circle"></div>
-          
+            <p>Bạn chưa có tài khoản? <Link to="/register"><span className='register'> Đăng ký</span></Link></p>
         </div>
         </div>
-      
+        
     );
 };
 

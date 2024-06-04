@@ -408,21 +408,21 @@ app.delete('/unlikeComment/:commentId', (req, res) => {
 });
 
 // API endpoint to add a new actor
-app.post('/actors', (req, res) => {
-  const { name, profile_img } = req.body;
+// app.post('/actors', (req, res) => {
+//   const { name, profile_img } = req.body;
 
-  const actorQuery = 'INSERT INTO actors (name, profile_img) VALUES (?, ?)';
+//   const actorQuery = 'INSERT INTO actors (name, profile_img) VALUES (?, ?)';
   
-  connection.query(actorQuery, [name, profile_img], (error, results) => {
-    if (error) {
-      console.error('Error adding actor:', error);
-      res.status(500).send('Error adding actor');
-      return;
-    }
+//   connection.query(actorQuery, [name, profile_img], (error, results) => {
+//     if (error) {
+//       console.error('Error adding actor:', error);
+//       res.status(500).send('Error adding actor');
+//       return;
+//     }
 
-    res.status(201).json({ actor_id: results.insertId, name, profile_img });
-  });
-});
+//     res.status(201).json({ actor_id: results.insertId, name, profile_img });
+//   });
+// });
 
 // API DELETE MOVIES 
 //API endpoint to delete a movie by ID
@@ -503,6 +503,122 @@ app.put('/movies/:id', (req, res) => {
     res.status(200).send('Movie details updated successfully');
   });
 }); 
+// API ADD ACtors 
+app.get('/actors', (req, res) => {
+  const query = 'SELECT * FROM actors';
+  connection.query(query, (error, results) => {
+    if (error) throw error;
+    res.json(results);
+  });
+});
+const storage1 = multer.diskStorage({
+  destination: (req, file, cb) => {
+      const uploadDir1 = path.join(__dirname, '../public/assets/images/');
+      if (!fs.existsSync(uploadDir1)) {
+          fs.mkdirSync(uploadDir1, { recursive: true });
+      }
+      cb(null, uploadDir1);
+  },
+  filename: (req, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+
+const upload1 = multer({ storage: storage1 });
+app.post('/actors', upload1.fields([{ name: 'profile_img', maxCount: 1 }]), (req, res) => {
+  const { name } = req.body;
+  const profileImgFile = req.files['profile_img'] ? req.files['profile_img'][0] : null;
+  
+  // Kiểm tra xem có tên diễn viên được cung cấp không
+  if (!name) {
+    return res.status(400).send('Missing name of the actor');
+  }
+
+  // Kiểm tra xem có hình ảnh đại diện được tải lên không
+  if (!profileImgFile) {
+    return res.status(400).send('Missing profile image');
+  }
+
+  // Lấy tên file hình ảnh đại diện từ đối tượng file được tải lên
+  const profileImg = profileImgFile.filename;
+
+  const actorQuery = 'INSERT INTO actors (name, profile_img) VALUES (?, ?)';
+  
+  connection.query(actorQuery, [name, profileImg], (error, results) => {
+    if (error) {
+      console.error('Error adding actor:', error);
+      return res.status(500).send('Error adding actor');
+    }
+
+    res.status(201).json({ actor_id: results.insertId, name, profile_img: profileImg });
+  });
+});
+
+
+// API endpoint to delete an actor by ID
+app.delete('/actors/:id', (req, res) => {
+  const { id } = req.params;
+
+  // Xóa diễn viên từ bảng actors
+  const deleteActorQuery = 'DELETE FROM actors WHERE actor_id = ?';
+  connection.query(deleteActorQuery, [id], (error, results) => {
+    if (error) {
+      console.error('Error deleting actor:', error);
+      res.status(500).send('Error deleting actor');
+      return;
+    }
+
+    if (results.affectedRows === 0) {
+      res.status(404).send('Actor not found');
+      return;
+    }
+
+    res.status(200).send('Actor deleted successfully');
+  });
+});
+// API endpoint to get actor details by ID
+app.get('/actors/:id', (req, res) => {
+  const { id } = req.params;
+  const actorQuery = 'SELECT * FROM actors WHERE actor_id = ?';
+  connection.query(actorQuery, [id], (error, results) => {
+    if (error) {
+      console.error('Error fetching actor details:', error);
+      res.status(500).send('Error fetching actor details');
+      return;
+    }
+    if (results.length === 0) {
+      res.status(404).send('Actor not found');
+      return;
+    }
+    res.json(results[0]);
+  });
+});
+// API endpoint to update actor details
+app.put('/actors/:id', upload.fields([{ name: 'profile_img', maxCount: 1 }]), (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  const profileImgFile = req.files['profile_img'] ? req.files['profile_img'][0] : null;
+  
+  // Kiểm tra xem có tên diễn viên được cung cấp không
+  if (!name) {
+    res.status(400).send('Missing name of the actor');
+    return;
+  }
+
+  let profileImg = null;
+  if (profileImgFile) {
+    profileImg = profileImgFile.filename;
+  }const actorUpdateQuery = 'UPDATE actors SET name = ?, profile_img = ? WHERE actor_id = ?';
+  
+  connection.query(actorUpdateQuery, [name, profileImg, id], (error, results) => {
+    if (error) {
+      console.error('Error updating actor details:', error);
+      res.status(500).send('Error updating actor details');
+      return;
+    }
+    res.status(200).send('Actor details updated successfully');
+  });
+});
 
 // Start the server
 

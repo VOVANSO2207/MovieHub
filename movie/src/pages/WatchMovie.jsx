@@ -10,7 +10,7 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import RelatedMovie from './RelatedMovie';
 import Footer from './Footer';
 import Header from './Header';
-import axios from 'axios'; // Import Axios
+import axios from 'axios';
 
 function WatchMovie() {
     const { movieId } = useParams();
@@ -205,7 +205,7 @@ function WatchMovie() {
         }
 
         const newReplyData = {
-            user_id: 1, // Temporarily set user_id or get it from current user state
+            user_id: 1, // Temporarily set user_id or get it from current user state    
             movie_id: movieId,
             parent_comment_id: parentCommentId,
             content: newReplyContent,
@@ -244,11 +244,11 @@ function WatchMovie() {
         return comments
             .filter(comment => comment.parent_comment_id === parentId)
             .map(comment => (
-                <div className={`commented ${parentId ? 'replied' : ''}`} key={comment.comment_id} style={{ marginLeft: parentId ? '40px' : '0px' }}>
+                <div className={`commented ${parentId ? 'replied' : ''}`} key={comment.comment_id}>
                     <img src="../assets/images/default.jpg" alt="User" className="comment-user-img" />
                     <div className="content-comment">
-                        <span className="comment-user-name">{comment.username} </span>
-
+                        <span className="comment-user-name">{comment.username}</span>
+    
                         {editCommentId === comment.comment_id ? (
                             <div>
                                 <input
@@ -262,45 +262,47 @@ function WatchMovie() {
                         ) : (
                             <p className="comment-text">{comment.content}</p>
                         )}
-
+    
                         <span style={{ color: 'gray' }}> {new Date(comment.created_at).toLocaleString()}</span>
-
+    
                         <div className="interact">
                             <button className="interact-button" onClick={() => handleLikeComment(comment.comment_id, comment.liked)}>
                                 <ion-icon name="thumbs-up-outline"></ion-icon>{comment.liked ? 'Liked' : 'Like'}
                             </button>
-                            <span>{comment.likes_count} Likes</span> {/* Hiển thị số lượt like */}
-
+                            <span>{comment.likes_count} Likes</span>
+    
                             <button className="interact-button" onClick={() => setReplyCommentId(comment.comment_id)}>
-
                                 <ion-icon name="chatbubble-outline"></ion-icon> Reply
                             </button>
-
+    
                             <button className='edit-comment' onClick={() => handleEditComment(comment.comment_id, comment.content)}>
                                 Edit
                             </button>
                             <button onClick={() => handleDeleteComment(comment.comment_id)} className="btn btn-danger btn-sm">Delete</button>
                         </div>
-                    </div>
-
-                    {replyCommentId === comment.comment_id && (
-                        <div className="comment-input" style={{ marginLeft: '40px' }}>
-                            <img src="../assets/images/default.jpg" alt="User" className="comment-user-img" />
-                            <textarea
-                                type="text"
-                                placeholder='Write a reply...'
-                                className="comment-input-field"
-                                value={newReplyContent}
-                                onChange={(e) => setNewReplyContent(e.target.value)}
-                            />
-                            <button className="comment-button" onClick={() => handlePostReply(comment.comment_id)}>Reply</button>
+    
+                        {replyCommentId === comment.comment_id && (
+                            <div className="comment-input" style={{ marginLeft: '40px' }}>
+                                <img src="../assets/images/default.jpg" alt="User" className="comment-user-img" />
+                                <textarea
+                                    type="text"
+                                    placeholder='Write a reply...'
+                                    className="comment-input-field"
+                                    value={newReplyContent}
+                                    onChange={(e) => setNewReplyContent(e.target.value)}
+                                />
+                                <button className="comment-button" onClick={() => handlePostReply(comment.comment_id)}>Reply</button>
+                            </div>
+                        )}
+    
+                        <div className="replies">
+                            {renderComments(comments, comment.comment_id)} {/* Recursively render replies */}
                         </div>
-                    )}
-
-                    {renderComments(comments, comment.comment_id)} {/* Recursively render replies */}
+                    </div>
                 </div>
             ));
     };
+    
 
 
     if (loading) {
@@ -329,30 +331,29 @@ function WatchMovie() {
                             <div className="row">
                                 <ul className="filter-category">
                                     <li>{movie.category_name}</li>
-
-                                    <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="" data-action="" data-size="" data-share="true"></div>
+    
+                                    {/* <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="" data-action="" data-size="" data-share="true"></div> */}
                                 </ul>
                             </div>
                             <div className="col-lg-7 mt-3">
                                 <h2 className='detail-description'>Description</h2>
-                                <p className={movie.description.length > 100 ? "description" : ""}> {movie.description}</p>
-
+                                <p className={movie.description.length > 100 ? "description" : ""}>{movie.description}</p>
+    
                                 <div className="actor-list">
-                                    <p style={{ color: 'gray', fontWeight: 'bold', marginRight: '5px' }}>Cast:   </p>
+                                    <p style={{ color: 'gray', fontWeight: 'bold', marginRight: '5px' }}>Cast:</p>
                                     {movie.actors.map((actor, index) => (
-                                        <p className="actor-item" key={index}> {actor.name} ,</p>
+                                        <p className="actor-item" key={index}>{actor.name},</p>
                                     ))}
                                 </div>
-
-
+    
                                 <div className="time-movie">
                                     <p className="Runtime"><span style={{ color: '#fff' }}>Runtime</span> : {movie.length}</p>
-                                    <p className="RealeaseDate"> <span style={{ color: '#fff' }}>Realease Date :</span> {movie.date}</p>
+                                    <p className="RealeaseDate"><span style={{ color: '#fff' }}>Realease Date:</span> {movie.date}</p>
                                 </div>
                                 <div className="title-language">
-                                    <span className='language'>Language : {movie.language}</span>
+                                    <span className='language'>Language: {movie.language}</span>
                                     <span className="playWatch" onClick={handlePlayWatchClick}>
-                                        <ion-icon name="play-circle-outline" className="play-watch-icon"></ion-icon>  Watch
+                                        <ion-icon name="play-circle-outline" className="play-watch-icon"></ion-icon> Watch
                                     </span>
                                 </div>
                             </div>
@@ -406,7 +407,7 @@ function WatchMovie() {
                     </div>
                 </div>
                 <div className="container mt-5" ref={videoPlayerRef}>
-                    <h2 className='watch-movie'>Watch Movie </h2>
+                    <h2 className='watch-movie'>Watch Movie</h2>
                     <div className="video-player">
                         {movie.video.includes("youtube.com") ? (
                             <iframe
@@ -429,14 +430,12 @@ function WatchMovie() {
                                 allowFullScreen
                             ></video>
                         )}
-
-
                     </div>
                 </div>
                 <RelatedMovie />
                 <div className="container mt-5">
                     <h2 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '20px', color: '#fff', textTransform: 'uppercase', borderBottom: '2px solid #ff5c00' }}>Reviews</h2>
-
+    
                     <div className="all-comments">
                         <div className="total-comment">
                             {comments.length} Comments
@@ -463,6 +462,7 @@ function WatchMovie() {
             </div>
         </div>
     );
+    
 }
 
 export default WatchMovie;

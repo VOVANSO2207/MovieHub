@@ -183,7 +183,7 @@ function MovieDetailModal({ movie, onClose }) {
                     <button className="button-close" onClick={onClose}>Close</button>
                 </div>
                 <div className="modal-body4">
-                    <img src={movie.previewImg} alt="Movie Poster" style={{ maxWidth: '40%' }} />
+                    <img src={`../assets/movies/${movie.previewImg}`} alt="Movie Poster" style={{ maxWidth: '40%' }} />
                     <p><strong>Category:</strong> {movie.category_name}</p>
                     <p><strong>Year:</strong> {movie.year}</p>
                     <p><strong>Length:</strong> {movie.length}</p>

@@ -16,6 +16,9 @@ import Movieadd from './pages/Movieadd';
 import Category from './pages/Category';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
+import User from './pages/User';
+import Actor from './pages/Actors';
+
 // import RegisterPage from './components/RegisterPage';
 // import ProtectedRoute from './components/ProtectedRoute';
 
@@ -94,7 +97,23 @@ function App() {
             </DashBoardLayout>
           }
         />
-       
+        <Route
+          path="/user"
+          element={
+            <DashBoardLayout toggle={toggle} Toggle={Toggle}>
+              <User />
+            </DashBoardLayout>
+          }
+        />
+          <Route
+          path="/actor"
+          element={
+            <DashBoardLayout toggle={toggle} Toggle={Toggle}>
+              <Actor></Actor>
+            </DashBoardLayout>
+          }
+        />
+
                 {/* <Route path="/register" element={<RegisterPage />} />
                 <Route path="/admin" element={<ProtectedRoute component={AdminPage} role="admin" />} />
                 <Route path="/user" element={<ProtectedRoute component={UserPage} role="user" />} />
