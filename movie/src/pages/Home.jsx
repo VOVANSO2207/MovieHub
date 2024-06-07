@@ -5,12 +5,18 @@ import '../css/style.css';
 function Home({ Toggle }) {
     const [movies, setMovies] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalUsers, setTotalUsers] = useState(0); // State to store the total number of users
     const [selectedMovie, setSelectedMovie] = useState(null); // State to track the selected movie
     const moviesPerPage = 5; // Number of movies per page
 
     useEffect(() => {
         fetchMovies();
+        fetchTotalUsers();
     }, []);
+    const fetchTotalUsers = () => {
+        const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+        setTotalUsers(storedUsers.length);
+    };
 
     const fetchMovies = async () => {
         try {
@@ -114,7 +120,7 @@ function Home({ Toggle }) {
                         <div className='p-3 bg-black shadow-sm d-flex justify-content-around align-items-center rounded'>
                             <div className="marquee">
                                 <div className="marquee-content">
-                                    <h3 className='fs-2'>50</h3>
+                                    <h3 className='fs-2'>{totalUsers}</h3>
                                     <p className='fs-5'>Total Users</p>
                                 </div>
                             </div>

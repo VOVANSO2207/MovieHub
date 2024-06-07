@@ -13,14 +13,14 @@ body {
   font-family: 'Roboto', sans-serif;
   
 }
-body::-webkit-scrollbar {
+/* body::-webkit-scrollbar {
   width: 10px;
   height: 10px;
-}
+} */
 
 /* Track */
 body::-webkit-scrollbar-track {
-  background: #3cf10a;
+  background: #3a3f39;
   border-radius: 5px;
 }
 

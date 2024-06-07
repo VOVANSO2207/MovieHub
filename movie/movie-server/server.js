@@ -377,34 +377,47 @@ app.delete('/comments/:id', (req, res) => {
   });
 });
 
-// API like comments 
 app.post('/likeComment', (req, res) => {
-  const { user_id, comment_id } = req.body;
+    const { user_id, comment_id } = req.body;
 
-  const query = `INSERT INTO likeComments (user_id, comment_id) VALUES (?, ?)`;
+    const query = `INSERT INTO likeComments (user_id, comment_id) VALUES (?, ?)`;
 
-  connection.query(query, [user_id, comment_id], (err, results) => {
-      if (err) {
-          console.error('Database error:', err);
-          return res.status(500).json({ message: 'Database error', error: err });
-      }
-      res.status(200).json({ message: 'Like added successfully', results });
-  });
+    connection.query(query, [user_id, comment_id], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ message: 'Database error', error: err });
+        }
+        // Trả về số lượt thích hiện tại
+        connection.query('SELECT COUNT(*) as likes_count FROM likeComments WHERE comment_id = ?', [comment_id], (err, results) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).json({ message: 'Database error', error: err });
+            }
+            res.status(200).json({ message: 'Like added successfully', likes_count: results[0].likes_count });
+        });
+    });
 });
-// API to unlike a comment
-app.delete('/unlikeComment/:commentId', (req, res) => {
-  const commentId = req.params.commentId;
-  const userId = req.body.user_id;
 
-  const query = `DELETE FROM likeComments WHERE user_id = ? AND comment_id = ?`;
+app.delete('/unlikeComment/:comment_id', (req, res) => {
+    const { user_id } = req.body;
+    const { comment_id } = req.params;
 
-  connection.query(query, [userId, commentId], (err, results) => {
-      if (err) {
-          console.error('Database error:', err);
-          return res.status(500).json({ message: 'Database error', error: err });
-      }
-      res.status(200).json({ message: 'Like removed successfully', results });
-  });
+    const query = `DELETE FROM likeComments WHERE user_id = ? AND comment_id = ?`;
+    
+    connection.query(query, [user_id, comment_id], (err, results) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ message: 'Database error', error: err });
+        }
+        // Trả về số lượt thích hiện tại
+        connection.query('SELECT COUNT(*) as likes_count FROM likeComments WHERE comment_id = ?', [comment_id], (err, results) => {
+            if (err) {
+                console.error('Database error:', err);
+                return res.status(500).json({ message: 'Database error', error: err });
+            }
+            res.status(200).json({ message: 'Like removed successfully', likes_count: results[0].likes_count });
+        });
+    });
 });
 
 // API endpoint to add a new actor
@@ -594,7 +607,7 @@ app.get('/actors/:id', (req, res) => {
   });
 });
 // API endpoint to update actor details
-app.put('/actors/:id', upload.fields([{ name: 'profile_img', maxCount: 1 }]), (req, res) => {
+app.put('/actors/:id', upload1.fields([{ name: 'profile_img', maxCount: 1 }]), (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
   const profileImgFile = req.files['profile_img'] ? req.files['profile_img'][0] : null;
@@ -608,7 +621,8 @@ app.put('/actors/:id', upload.fields([{ name: 'profile_img', maxCount: 1 }]), (r
   let profileImg = null;
   if (profileImgFile) {
     profileImg = profileImgFile.filename;
-  }const actorUpdateQuery = 'UPDATE actors SET name = ?, profile_img = ? WHERE actor_id = ?';
+  }
+  const actorUpdateQuery = 'UPDATE actors SET name = ?, profile_img = ? WHERE actor_id = ?';
   
   connection.query(actorUpdateQuery, [name, profileImg, id], (error, results) => {
     if (error) {
@@ -619,7 +633,39 @@ app.put('/actors/:id', upload.fields([{ name: 'profile_img', maxCount: 1 }]), (r
     res.status(200).send('Actor details updated successfully');
   });
 });
+// API endpoint to add an actor to a movie
+app.post('/addActorToMovie', (req, res) => {
+  const { movieId, actorId } = req.body;
 
+  // Kiểm tra xem movieId và actorId có được cung cấp không
+  if (!movieId || !actorId) {
+    return res.status(400).send('Missing movieId or actorId');
+  }
+
+  // Kiểm tra xem diễn viên đã tồn tại trong bộ phim chưa
+  const checkExistingQuery = 'SELECT * FROM movie_actors WHERE movie_id = ? AND actor_id = ?';
+  connection.query(checkExistingQuery, [movieId, actorId], (checkError, checkResults) => {
+    if (checkError) {
+      console.error('Error checking existing actor:', checkError);
+      return res.status(500).send('Error checking existing actor');
+    }
+
+    if (checkResults.length > 0) {
+      return res.status(400).send('Actor already exists in the movie');
+    }
+
+    // Thêm diễn viên vào bộ phim
+    const addActorQuery = 'INSERT INTO movie_actors (movie_id, actor_id) VALUES (?, ?)';
+    connection.query(addActorQuery, [movieId, actorId], (addError, addResults) => {
+      if (addError) {
+        console.error('Error adding actor to movie:', addError);
+        return res.status(500).send('Error adding actor to movie');
+      }
+
+      res.status(201).send('Actor added to movie successfully');
+    });
+  });
+});
 // Start the server
 
 app.listen(8081, () => {

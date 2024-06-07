@@ -12,6 +12,8 @@ function User() {
     const [newUsername, setNewUsername] = useState('');
     const [newEmail, setNewEmail] = useState('');
     const [newPassword, setNewPassword] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const usersPerPage = 5; // Number of users to display per page
 
     useEffect(() => {
         const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
@@ -65,6 +67,22 @@ function User() {
         setIsEditingUser(false);
     };
 
+    const indexOfLastUser = currentPage * usersPerPage;
+    const indexOfFirstUser = indexOfLastUser - usersPerPage;
+    const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < Math.ceil(users.length / usersPerPage)) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
     return (
         <div className='px-3'>
             <h1 className='text-white'> User List</h1>
@@ -79,15 +97,15 @@ function User() {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user, index) => (
+                    {currentUsers.map((user, index) => (
                         <tr key={index}>
-                            <th scope="row">{index + 1}</th>
+                            <th scope="row">{indexOfFirstUser + index + 1}</th>
                             <td>{user.username}</td>
                             <td>{user.email}</td>
                             <td>{user.password}</td>
                             <td>
-                                <button className="btn btn-warning" onClick={() => handleOpenEditUserModal(index)}>Edit</button>
-                                <button className="btn btn-danger" onClick={() => handleDeleteUser(index)}>Delete</button>
+                                <button className="btn btn-warning" onClick={() => handleOpenEditUserModal(indexOfFirstUser + index)}>Edit</button>
+                                <button className="btn btn-danger" onClick={() => handleDeleteUser(indexOfFirstUser + index)}>Delete</button>
                             </td>
                         </tr>
                     ))}
@@ -96,8 +114,15 @@ function User() {
             <div>
                 <button className="btn btn-success" onClick={handleOpenAddUserModal}>Add User</button>
             </div>
+
+            {/* Pagination Controls */}
+            <div className="pagination" style={{ justifyContent: 'flex-end' }}>
+                <button className="btn btn-warning" onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
+                <button className="btn btn-warning" onClick={handleNextPage} disabled={currentPage === Math.ceil(users.length / usersPerPage)}>Next</button>
+            </div>
+
             {isAddingUser && (
-                <div className="modal3" style={{ display: 'block' }}>
+                <div className="modal2" style={{ display: 'block' }}>
                     <div className="modal-content2">
                         <span className="close" onClick={handleCloseAddUserModal}>&times;</span>
                         <h2>Add User</h2>
@@ -117,9 +142,10 @@ function User() {
                     </div>
                 </div>
             )}
+
             {isEditingUser && (
-                <div className="modal3" style={{ display: 'block' }}>
-                    <div className="modal-content3">
+                <div className="modal2" style={{ display: 'block' }}>
+                    <div className="modal-content2">
                         <span className="close" onClick={handleCloseEditUserModal}>&times;</span>
                         <h2>Edit User</h2>
                         <div>

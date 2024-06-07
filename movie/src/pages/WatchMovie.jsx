@@ -88,7 +88,9 @@ function WatchMovie() {
                         comment_id: data.results.insertId,
                         created_at: new Date().toISOString(),
                         updated_at: new Date().toISOString(),
-                        username: data.username // Add username to comment data
+                        username: data.username, // Add username to comment data
+                        likes_count: 0,  // Khởi tạo số lượt thích là 0
+                        liked: false
                     }]);
                     setNewComment("");
                 } else {
@@ -136,17 +138,15 @@ function WatchMovie() {
     // Trong hàm handleLikeComment
     const handleLikeComment = (commentId, liked) => {
         if (liked) {
-            // Nếu đã thích, gửi yêu cầu hủy thích
             axios.delete(`http://localhost:8081/unlikeComment/${commentId}`, {
-                data: { user_id: 1 } // Điền user_id tương ứng
+                data: { user_id: 1 }
             })
                 .then(response => {
                     const data = response.data;
                     console.log(data);
                     if (data.message === 'Like removed successfully') {
-                        // Cập nhật số lượt like của bình luận và trạng thái thích
                         setComments(prevComments => prevComments.map(comment =>
-                            comment.comment_id === commentId ? { ...comment, likes_count: comment.likes_count - 1, liked: false } : comment
+                            comment.comment_id === commentId ? { ...comment, likes_count: data.likes_count, liked: false } : comment
                         ));
                     } else {
                         console.error('Failed to unlike comment:', data.error);
@@ -156,18 +156,16 @@ function WatchMovie() {
                     console.error('Error unliking comment:', error);
                 });
         } else {
-            // Nếu chưa thích, gửi yêu cầu thích
             axios.post(`http://localhost:8081/likeComment`, {
-                user_id: 1, // Điền user_id tương ứng
+                user_id: 1,
                 comment_id: commentId,
             })
                 .then(response => {
                     const data = response.data;
                     console.log(data);
                     if (data.message === 'Like added successfully') {
-                        // Cập nhật số lượt like của bình luận và trạng thái thích
                         setComments(prevComments => prevComments.map(comment =>
-                            comment.comment_id === commentId ? { ...comment, likes_count: comment.likes_count + 1, liked: true } : comment
+                            comment.comment_id === commentId ? { ...comment, likes_count: data.likes_count, liked: true } : comment
                         ));
                     } else {
                         console.error('Failed to like comment:', data.error);
@@ -226,7 +224,9 @@ function WatchMovie() {
                         comment_id: data.results.insertId,
                         created_at: new Date().toISOString(),
                         updated_at: new Date().toISOString(),
-                        username: data.username // Add username to comment data
+                        username: data.username ,// Add username to comment data
+                        likes_count: 0,  // Initialize likes_count to 0
+                        liked: false // Initialize liked to false
                     }]);
                     setReplyCommentId(null);
                     setNewReplyContent("");
@@ -266,11 +266,18 @@ function WatchMovie() {
                         <span style={{ color: 'gray' }}> {new Date(comment.created_at).toLocaleString()}</span>
     
                         <div className="interact">
-                            <button className="interact-button" onClick={() => handleLikeComment(comment.comment_id, comment.liked)}>
+                            {/* <button className="interact-button" onClick={() => handleLikeComment(comment.comment_id, comment.liked)}>
                                 <ion-icon name="thumbs-up-outline"></ion-icon>{comment.liked ? 'Liked' : 'Like'}
                             </button>
                             <span>{comment.likes_count} Likes</span>
-    
+                             */}
+                            <span className="comment-likes">
+                                {comment.likes_count} like
+                            </span>
+                            <button className="interact-button" onClick={() => handleLikeComment(comment.comment_id, comment.liked)}>
+                            <ion-icon name="thumbs-up-outline"></ion-icon>{comment.liked ? 'Liked' : 'Like'}
+                            </button>
+
                             <button className="interact-button" onClick={() => setReplyCommentId(comment.comment_id)}>
                                 <ion-icon name="chatbubble-outline"></ion-icon> Reply
                             </button>

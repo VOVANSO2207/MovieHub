@@ -39,19 +39,21 @@ function Sidebar() {
                 </a>
 
                 <a className='list-group-item py-2'>
-                    <i style={{color: 'grey'}} className='bi bi-table fs-4 me-3'></i>
+                <i style={{color: 'grey'}} className='bi bi-film fs-4 me-1'></i>
                     <button onClick={handleNavigate1} className='fs-8' style={{ border: 'none', background: 'transparent',color: 'grey', fontWeight: 'bold', padding: '5px' }}>Add Movie</button>
                 </a>
                 <a className='list-group-item py-2'>
-                    <i style={{color: 'grey'}} className='bi bi-house fs-4 me-3'></i>
+                <i style={{color: 'grey'}} className='bi bi-tags fs-4 me-3'></i>
+
                     <button onClick={handleNavigate2} className='fs-8' style={{ border: 'none', background: 'transparent',color: 'grey', fontWeight: 'bold', padding: '5px' }}>Category</button>
                 </a>
                 <a className='list-group-item py-2'>
-                    <i style={{color: 'grey'}} className='bi bi-house fs-4 me-3'></i>
+                <i style={{color: 'grey'}} className='bi bi-person fs-4 me-3'></i>
                     <button onClick={handleNavigate3} className='fs-8' style={{ border: 'none', background: 'transparent',color: 'grey', fontWeight: 'bold', padding: '5px' }}>User</button>
                 </a>
                 <a className='list-group-item py-2'>
-                    <i style={{color: 'grey'}} className='bi bi-house fs-4 me-3'></i>
+                <i style={{color: 'grey'}} className='bi bi-person-badge fs-4 me-3'></i>
+
                     <button onClick={handleNavigate4} className='fs-8' style={{ border: 'none', background: 'transparent',color: 'grey', fontWeight: 'bold', padding: '5px' }}>Actors</button>
                 </a>
                 <a className='list-group-item py-2'>
