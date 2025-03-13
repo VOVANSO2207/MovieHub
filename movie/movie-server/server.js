@@ -316,8 +316,6 @@ app.get('/comments/:movieId', (req, res) => {
   });
 });
 // API endpoint to add a new comment
-// Endpoint to add a comment
-
 app.post('/addComment', (req, res) => {
   const { user_id, movie_id, parent_comment_id, content } = req.body;
   const created_at = new Date();
@@ -351,7 +349,7 @@ app.post('/addComment', (req, res) => {
 app.put('/updateComment/:id', (req, res) => {
   const comment_id = req.params.id;
   const { user_id, movie_id, parent_comment_id, content, updated_at } = req.body; // Thêm updated_at từ request body
-  const query = 'UPDATE comments SET user_id = ?, movie_id = ?, parent_comment_id = ?, content = ?, updated_at = ? WHERE comment_id = ?'; // Thêm updated_at vào query
+  const query = 'UPDATE comments SET user_id = ?, movie_id = ?, parent_comment_id = ?, content = ?, updated_at = ? WHERE comment_id = ?'; 
   connection.query(query, [user_id, movie_id, parent_comment_id, content, updated_at, comment_id], (error, results) => {
     if (error) {
       console.error('Error updating comment:', error);
