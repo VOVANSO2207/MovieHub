@@ -5,7 +5,7 @@ function TrendCard({slide}) {
   return (
 
     <div className="trend-card">
-        <img src={slide.previewImg} alt="" className="img-fluid" />
+        <img src={slide.previewImg} alt="comming-soon" className="img-fluid" />
         <a href="#">
             Add to calendar <ion-icon name="calendar-outline"></ion-icon>
         </a>

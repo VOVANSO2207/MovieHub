@@ -266,11 +266,6 @@ function WatchMovie() {
                         <span style={{ color: 'gray' }}> {new Date(comment.created_at).toLocaleString()}</span>
     
                         <div className="interact">
-                            {/* <button className="interact-button" onClick={() => handleLikeComment(comment.comment_id, comment.liked)}>
-                                <ion-icon name="thumbs-up-outline"></ion-icon>{comment.liked ? 'Liked' : 'Like'}
-                            </button>
-                            <span>{comment.likes_count} Likes</span>
-                             */}
                             <span className="comment-likes">
                                 {comment.likes_count} like
                             </span>
@@ -326,6 +321,7 @@ function WatchMovie() {
                 <Header scroll={scroll} />
             </div>
             <div className="main-content">
+                {/* Detail movie */}
                 <div className="container d-flex justify-content-center mt-5">
                     <div className="row">
                         <div className="col-lg-5 col-md-12">
@@ -338,8 +334,6 @@ function WatchMovie() {
                             <div className="row">
                                 <ul className="filter-category">
                                     <li>{movie.category_name}</li>
-    
-                                    {/* <div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="" data-action="" data-size="" data-share="true"></div> */}
                                 </ul>
                             </div>
                             <div className="col-lg-7 mt-3">

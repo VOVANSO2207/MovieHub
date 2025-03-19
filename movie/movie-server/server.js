@@ -1,6 +1,5 @@
 const express = require('express');
 const mysql = require('mysql');
-// const bodyParser = require('body-parser');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const multer = require('multer');
@@ -8,8 +7,6 @@ const path = require('path');
 const fs = require('fs');
 const app = express();
 
-// Middleware
-// app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 // MySQL connection
@@ -41,11 +38,6 @@ app.get('/movies', (req, res) => {
       res.json(results);
     });
   });
-  // API endpoint add movie 
-  // API endpoint to add a new movie
-  // app.use(bodyParser.json());
-  // app.use(bodyParser.urlencoded({ extended: true }));
-
   // Cấu hình multer để lưu trữ file
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -93,83 +85,6 @@ app.post('/movies', upload.fields([{ name: 'image', maxCount: 1 }, { name: 'vide
       res.status(201).send('Movie added successfully');
   });
 });
-
-// app.post('/movies', (req, res) => {
-//   const { titleImg, bgImg, previewImg, video, title, year, date, ageLimit, length, language, category_id, type, description, active } = req.body;
-//   // console.log('Received data movie ha :', {
-//   //   titleImg, bgImg, previewImg, video, title, year, date, ageLimit, length, language, category_id, type, description, active
-//   // });
-//   const query = `
-//     INSERT INTO movies (titleImg, bgImg, previewImg, video, title, year, date, ageLimit, length, language, category_id, type, description, active) 
-//     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-//   `;
-//   const values = [titleImg, bgImg, previewImg, video, title, year, date, ageLimit, length, language, category_id, type, description, active];
-  
-//   connection.query(query, values, (error, results) => {
-//     if (error) {
-//       console.error('Error adding movie:', error);
-//       res.status(500).json({ message: 'Internal server error' });
-//     } else {
-//       res.status(200).json({ message: 'Movie added successfully' });
-//     }
-//   });
-// });
-
-  // API endpoint to add a new movie
-// app.post('/movies',(req, res) => {
-//   const {
-//     titleImg,
-//     bgImg,
-//     previewImg,
-//     video,
-//     title,
-//     year,
-//     date,
-//     ageLimit,
-//     length,
-//     language,
-//     category_id,
-//     type,
-//     description,
-//     active
-//   } = req.body;
-//   // const file = req.file;
-//     // Kiểm tra các giá trị đầu vào
-//     if (!title || !year || !date || !length || !language || !category_id || !type || !description || !active) {
-//       return res.status(400).send('Thiếu thông tin bắt buộc.');
-//     }
-//   const query = `
-//     INSERT INTO movies (
-//       titleImg, bgImg, previewImg, video, title, year, date, ageLimit, length, language, category_id, type, description, active
-//     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-//   `;
-
-//   const values = [
-//     titleImg,
-//     bgImg,
-//     previewImg,
-//     video,
-//     title,
-//     year,
-//     date,
-//     ageLimit,
-//     length,
-//     language,
-//     category_id,
-//     type,
-//     description,
-//     active
-//   ];
-
-//   connection.query(query, values, (error, results) => {
-//     if (error) {
-//       console.error('Lỗi khi thêm phim:', error);
-//       res.status(500).send('Lỗi khi thêm phim');
-//       return;
-//     }
-//     res.status(201).json({_id: results.insertId, ...req.body });
-//   });
-// });
 
 // API endpoint to get categories data
 app.get('/categories', (req, res) => {

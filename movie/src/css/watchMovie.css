@@ -1,7 +1,3 @@
-/* @import 'swiper/css';
-@import 'swiper/css/navigation';
-@import 'swiper/css/pagination'; */
-
 .actor-profile {
     text-align: center;
     margin: 10px;
@@ -29,6 +25,9 @@
     text-decoration: none; 
     color: inherit; 
 }
+
+
+/* Detail movie  */
 
 .filter-category {
     list-style: none;
@@ -80,14 +79,11 @@
 .main-content {
     margin-top: 100px;
 }
-
-
 .container .filter-category {
     display: flex;
     flex-wrap: wrap;
     list-style: none;
     gap: 10px;
-    /* margin-top: 50px; */
 }
 .container .filter-category li {
     color: #ffffff;
@@ -116,11 +112,9 @@
 }
 .title-language {
     display: flex;
-   
     background: #0D1328;
     width: 100%;
     height: 80px;
-    /* justify-content: space-around; */
     align-items: center;
     justify-content: center;
     gap: 100px;
@@ -163,17 +157,16 @@ transform: translateY(-5px);
 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); 
 }
 .img-movie {
-    /* max-height: 400px;  */
     overflow: hidden;
     border-radius: 12px;
 }
 
 .img-movie img {
     width: 100%;
-    /* height: 600px; */
     object-fit: cover; 
     max-height: 100%; 
 }
+/* ===================== */
 .video-player {
     margin-top: 20px;
 }
@@ -211,21 +204,6 @@ iframe:hover {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); 
 }
 
-/* .comment-list .commented {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-    transition: box-shadow 0.3s ease;
-}
-
-.comment-list .commented:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
-} */
-
-
 .total-comment {
     font-size: 1.2rem;
     margin-bottom: 10px;
@@ -233,30 +211,13 @@ iframe:hover {
 }
 
 .comment-input {
-    /* display: flex;
-    align-items: center;
-    gap: 10px; */
     margin-bottom: 10px;
 
 }
-.comment-input input {
-    /* height: 80px; */
-   
-}
-
 .comment-user-img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-}
-
-.comment-input-field {
-    /* flex: 1;
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    padding: 10px 15px;
-    font-size: 1em;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); */
 }
 .comment-button {
     background-color: #007bff;
@@ -311,31 +272,22 @@ iframe:hover {
         transform: translateY(-5px);
     }
 }
-
-
-
-
-
-
 .total-comment {
     font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 15px;
 }
-
 .comment-input {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
 }
-
 .comment-input .comment-user-img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
 }
-
 .comment-input-field {
     flex-grow: 1;
     padding: 10px;
@@ -358,13 +310,11 @@ iframe:hover {
 .comment-list {
     margin-top: 20px;
 }
-
 .commented {
     display: flex;
     align-items: flex-start;
     margin-bottom: 20px;
 }
-
 .commented .comment-user-img {
     width: 40px;
     height: 40px;
@@ -472,19 +422,19 @@ iframe:hover {
     color: #fff;
 }
 .commented.replied {
-    margin-left: 50px; /* Indent replied comments */
-    padding-left: 10px; /* Add padding for replied comments */
-    border-left: 2px solid #ccc; /* Add a left border to separate replied comments */
+    margin-left: 50px; 
+    padding-left: 10px; 
+    border-left: 2px solid #ccc; 
 }
 
 .replies {
-    margin-top: 10px; /* Add some margin between the parent comment and its replies */
+    margin-top: 10px;
 }
 
 .watch-movie {
     font-size: 2.5rem;
     margin-bottom: 2rem;
-    color: #333; /* Adjust color as needed */
+    color: #333; 
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: bold;
@@ -515,7 +465,6 @@ iframe:hover {
 
 
 .top-cast {
-    /* text-align: center; */
     font-size: 2.5rem;
     margin-bottom: 2rem;
     color: #333;
