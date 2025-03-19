@@ -28,7 +28,8 @@ function CreateMovie() {
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [categoryOptions, setCategoryOptions] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
-    const [actors, setActors] = useState([]);
+    const [castOptions, setCastOptions] = useState([]);
+    const [selectedCast, setSelectedCast] = useState([]);
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -40,7 +41,17 @@ function CreateMovie() {
             }
         };
 
+        const fetchCastList = async () => {
+            try {
+                const response = await axios.get('http://localhost:8081/actors');
+                setCastOptions(response.data.map(cast => cast.name));
+            } catch (error) {
+                console.error('Lỗi khi lấy danh sách diễn viên:', error);
+            }
+        };
+
         fetchCategories();
+        fetchCastList();
     }, []);
 
     const handleDrop = (e, type) => {
@@ -50,8 +61,6 @@ function CreateMovie() {
             setImage(file);
         } else if (type === 'video' && file.type.startsWith('video/')) {
             setVideo(file);
-        } else if (type === 'actors' && file.type.startsWith('image/')) {
-            setActors([...actors, file]);
         }
     };
 
@@ -65,8 +74,6 @@ function CreateMovie() {
             setImage(file);
         } else if (type === 'video' && file.type.startsWith('video/')) {
             setVideo(file);
-        } else if (type === 'actors' && file.type.startsWith('image/')) {
-            setActors([...actors, file]);
         }
     };
 
@@ -103,11 +110,7 @@ function CreateMovie() {
             formData.append('category_id', categoryOptions.indexOf(category) + 1);
             formData.append('image', image);
             formData.append('video', video);
-
-            // Thêm diễn viên
-            actors.forEach((actor, index) => {
-                formData.append(`actor${index + 1}`, actor);
-            });
+            formData.append('cast', selectedCast.join(', '));
 
             const response = await axios.post('http://localhost:8081/movies', formData);
             console.log(response);
@@ -129,6 +132,11 @@ function CreateMovie() {
         setSuccessMessage('');
     };
 
+    const handleCastChange = (e) => {
+        const selectedCast = Array.from(e.target.selectedOptions).map(option => option.value);
+        setSelectedCast(selectedCast);
+    };
+
     return (
         <div>
             <h1>Create Movie</h1>
@@ -138,7 +146,7 @@ function CreateMovie() {
                 <div className="row">
                     <div className="col">
                         <label htmlFor="movie-title">Tên phim:</label>
-                        <input style={{ color: 'white' }} type="text" id="movie-title" value={movieTitle} onChange={handleTitleChange} />
+                        <input  type="text" id="movie-title" value={movieTitle} onChange={handleTitleChange} />
                     </div>
                     <div className="col">
                         <label htmlFor="hours">Giờ:</label>
@@ -167,144 +175,142 @@ function CreateMovie() {
                     </div>
                 </div>
                 <div>
-                    <label htmlFor="image">H
-                    ình ảnh với tiêu đề:</label>
-<div
-id="image-drop"
-onDrop={(e) => handleDrop(e, 'image')}
-onDragOver={handleDragOver}
-onClick={() => document.getElementById('image-input').click()}
-style={{
-width: '100%',
-height: '200px',
-border: '2px dashed #ccc',
-borderRadius: '5px',
-textAlign: 'center',
-lineHeight: '200px',
-fontSize: '16px',
-position: 'relative',
-cursor: 'pointer',
-}}
->
-{image ? (
-<img
-src={URL.createObjectURL(image)}
-alt="Hình xem trước"
-style={{
-maxWidth: '100%',
-maxHeight: '100%',
-borderRadius: '5px',
-}}
-/>
-) : (
-<div style={{ color: 'white' }}>Kéo thả hình ảnh của bạn vào đây</div>
-)}
-</div>
-<input
-id="image-input"
-type="file"
-accept="image/*"
-style={{ display: 'none' }}
-onChange={(e) => handleFileChange(e, 'image')}
-/>
-</div>            <div>
-                <label htmlFor="description">Mô tả phim:</label>
-                <textarea style={{ width: '100%', height: '200px' }} id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
-            </div>
-            <div style={{ width: '100%' }}>
-                <label htmlFor="category" style={{ color: 'white' }}>Thể loại phim:</label>
-                <select
-                    id="category"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="dropdown2"
-                >
-                    {categoryOptions.map((cat, index) => (
-                        <option key={index} value={cat}>{cat}</option>
-                    ))}
-                </select>
-            </div>
-            <div>
-                <label htmlFor="video">Video phim:</label>
-                <div
-                    id="video-drop"
-                    onDrop={(e) => handleDrop(e, 'video')}
-                    onDragOver={handleDragOver}
-                    onClick={() => document.getElementById('video-input').click()}
-                    style={{
-                        width: '100%',
-                        height: '200px',
-                        border: '2px dashed #ccc',
-                        borderRadius: '5px',
-                        textAlign: 'center',
-                        lineHeight: '200px',
-                        fontSize: '16px',
-                        position: 'relative',
-                        cursor: 'pointer',
-                        marginTop: '20px',
-                    }}
-                >
-                    {video ? (
-                        <video
-                            src={URL.createObjectURL(video)}
-                            controls
-                            style={{
-                                maxWidth: '100%',
-                                maxHeight: '100%',
-                                borderRadius: '5px',
-                            }}
-                        />
-                    ) : (
-                        <div style={{ color: 'white' }}>Kéo thả video của bạn vào đây</div>
-                    )}
+                    <label htmlFor="image">Hình ảnh với tiêu đề:</label>
+                    <div
+                        id="image-drop"
+                        onDrop={(e) => handleDrop(e, 'image')}
+                        onDragOver={handleDragOver}
+                        onClick={() => document.getElementById('image-input').click()}
+                        style={{
+                            width: '100%',
+                            height: '200px',
+                            border: '2px dashed #ccc',
+                            borderRadius: '5px',
+                            textAlign: 'center',
+                            lineHeight: '200px',
+                            fontSize: '16px',
+                            position: 'relative',
+                            cursor: 'pointer',
+                        }}
+                    >
+                        {image ? (
+                            <img
+                                src={URL.createObjectURL(image)}
+                                alt="Hình xem trước"
+                                style={{
+                                    maxWidth: '100%',
+                                    maxHeight: '100%',
+                                    borderRadius: '5px',
+                                }}
+                            />
+                        ) : (
+                            <div style={{ color: 'white' }}>Kéo thả hình ảnh của bạn vào đây</div>
+                        )}
+                    </div>
+                    <input
+                        id="image-input"
+                        type="file"
+                        accept="image/*"
+                        style={{ display: 'none' }}
+                        onChange={(e) => handleFileChange(e, 'image')}
+                    />
                 </div>
-                <input
-                    id="video-input"
-                    type="file"
-                    accept="video/*"
-                    style={{ display: 'none' }}
-                    onChange={(e) => handleFileChange(e, 'video')}
-                />
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                <div style={{ width: '50%', boxSizing: 'border-box', padding: '10px' }}>
-                    <label htmlFor="cast" style={{ border: '2px dashed red', padding: '10px', cursor: 'pointer' }}>
-                        THÊM DIỄN VIÊN:
-                        <input type="file" id="cast" onChange={(e) => handleFileChange(e, 'actors')} multiple style={{ display: 'none' }} />
-                    </label>
+
+                <div>
+                    <label htmlFor="description">Mô tả phim:</label>
+                    <textarea style={{ width: '100%', height: '200px' }} id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
                 </div>
-                <div style={{ width: '50%', display: 'flex', flexWrap: 'wrap' }}>
-                    {actors.map((file, index) => (
-                        <img key={index} src={URL.createObjectURL(file)} alt={`Diễn viên ${index + 1}`} className="cast-image" style={{ width: 'calc(33.33% - 50px)', height: '150px', marginRight: '10px', marginBottom: '10px', objectFit: 'cover' }} />
-                    ))}
+                <div style={{ width: '100%' }}>
+                    <label htmlFor="category" style={{ color: 'white' }}>Thể loại phim:</label>
+                    <select
+                        id="category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="dropdown2"
+                    >
+                        {categoryOptions.map((cat, index) => (
+                            <option key={index} value={cat}>{cat}</option>
+                        ))}
+                    </select>
                 </div>
-            </div>
-            <div>
-                <input type="submit" value="Xuất bản phim" style={{ backgroundColor: "red", width: "100%", height: "60px" }} />
-            </div>
-        </form>
-        {showSuccessModal && (
-            <SuccessModal message={successMessage || errorMessage} onClose={handleCloseSuccessModal} />
-        )}
-    </div>
-);
+                <div style={{ width: '100%' }}>
+                    <label htmlFor="cast">Danh sách diễn viên:</label>
+                    <select  className="dropdown2" id="cast" multiple={true} value={selectedCast} onChange={handleCastChange}>
+                        {castOptions.map((cast) => (
+                            <option key={cast} value={cast}>
+                                {cast}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="video">Video phim:</label>
+                    <div
+                        id="video-drop"
+                        onDrop={(e) => handleDrop(e, 'video')}
+                        onDragOver={handleDragOver}
+                        onClick={() => document.getElementById('video-input').click()}
+                        style={{
+                            width: '100%',
+                            height: '200px',
+                            border: '2px dashed #ccc',
+                            borderRadius: '5px',
+                            textAlign: 'center',
+                            lineHeight: '200px',
+                            fontSize: '16px',
+                            position: 'relative',
+                            cursor: 'pointer',
+                            marginTop: '20px',
+                        }}
+                    >
+                        {video ? (
+                            <video
+                                src={URL.createObjectURL(video)}
+                                controls
+                                style={{
+                                    maxWidth: '100%',
+                                    maxHeight: '100%',
+                                    borderRadius: '5px',
+                                }}
+                            />
+                        ) : (
+                            <div style={{ color: 'white' }}>Kéo thả video của bạn vào đây</div>
+                        )}
+                    </div>
+                    <input
+                        id="video-input"
+                        type="file"
+                        accept="video/*"
+                        style={{ display: 'none' }}
+                        onChange={(e) => handleFileChange(e, 'video')}
+                    />
+                </div>
+                <div>
+                    <input type="submit" value="Xuất bản phim" style={{ backgroundColor: "red", width: "100%", height: "60px" }} />
+                </div>
+            </form>
+            {showSuccessModal && (
+                <SuccessModal message={successMessage || errorMessage} onClose={handleCloseSuccessModal} />
+            )}
+        </div>
+    );
 }
 
 function SuccessModal({ message, onClose }) {
-return (
-<div className="success-modal-overlay">
-<div className="success-modal">
-<div className="modal-header">
-<h3 style={{ color: 'white', fontStyle: 'bold', margin: 'auto' }}>{message}</h3>
-</div>
-<div className="modal-body">
-<button onClick={onClose} style={{ backgroundColor: '#fc1c03', color: 'white', padding: '8px', border: 'none', cursor: 'pointer' }}>
-Close
-</button>
-</div>
-</div>
-</div>
-);
+    return (
+        <div className="success-modal-overlay">
+            <div className="success-modal">
+                <div className="modal-header">
+                    <h3 style={{ color: 'white', fontStyle: 'bold', margin: 'auto' }}>{message}</h3>
+                </div>
+                <div className="modal-body">
+                    <button onClick={onClose} style={{ backgroundColor: '#fc1c03', color: 'white', padding: '8px', border: 'none', cursor: 'pointer' }}>
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default CreateMovie;

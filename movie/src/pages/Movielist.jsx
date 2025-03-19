@@ -20,8 +20,6 @@ function MovieList() {
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
-    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-    const [deleteIndex, setDeleteIndex] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const moviesPerPage = 5;
 
@@ -52,7 +50,7 @@ function MovieList() {
                 updatedMovies[index] = editedMovie;
                 setMovies(updatedMovies);
                 setShowEditModal(false);
-                setShowSuccessModal(true);
+                // setShowSuccessModal(true);
             }
         } catch (error) {
             console.error("Error saving movie:", error);
@@ -63,29 +61,19 @@ function MovieList() {
         setShowSuccessModal(false);
     };
 
-    const handleDelete = (index) => {
-        setShowDeleteConfirmation(true);
-        setDeleteIndex(index);
-    };
-
-    const handleConfirmDelete = async () => {
+    const handleDelete = async (index) => {
         try {
-            const movieToDelete = movies[deleteIndex];
+            const movieToDelete = movies[index];
             const response = await axios.delete(`http://localhost:8081/movies/${movieToDelete._id}`);
             if (response.status === 200) {
                 const updatedMovies = [...movies];
-                updatedMovies.splice(deleteIndex, 1);
+                updatedMovies.splice(index, 1);
                 setMovies(updatedMovies);
-                setShowDeleteConfirmation(false);
-                setShowSuccessModal(true);
+                // setShowSuccessModal(true);
             }
         } catch (error) {
             console.error("Error deleting movie:", error);
         }
-    };
-
-    const handleCloseDeleteConfirmation = () => {
-        setShowDeleteConfirmation(false);
     };
 
     const indexOfLastMovie = currentPage * moviesPerPage;
@@ -165,9 +153,6 @@ function MovieList() {
             {showSuccessModal && (
                 <SuccessModal message="Success" onClose={handleCloseSuccessModal} />
             )}
-            {showDeleteConfirmation && (
-                <DeleteConfirmationModal onConfirmDelete={handleConfirmDelete} onClose={handleCloseDeleteConfirmation} />
-            )}
         </div>
     );
 }
@@ -189,9 +174,15 @@ function EditModal({ movie, onSaveEdit, onClose }) {
         fetchCategories();
     }, []);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onSaveEdit(editedMovie);
+    const handleSave = async () => {
+        try {
+            const response = await axios.put(`http://localhost:8081/movies/${editedMovie._id}`, editedMovie);
+            if (response.status === 200) {
+                onSaveEdit(editedMovie);
+            }
+        } catch (error) {
+            console.error("Error saving movie:", error);
+        }
     };
 
     const handleChange = (e) => {
@@ -217,7 +208,7 @@ function EditModal({ movie, onSaveEdit, onClose }) {
                     <button className="button-close" onClick={onClose}>Close</button>
                 </div>
                 <div className="modal-body1">
-                    <form onSubmit={handleSubmit}>
+                    <form>
                         <div className="form-group">
                             <label htmlFor="title">Title:</label>
                             <input type="text" style={{ color: 'white' }} id="title" name="title" value={editedMovie.title} onChange={handleChange} />
@@ -277,13 +268,16 @@ function EditModal({ movie, onSaveEdit, onClose }) {
                             <label htmlFor="hours" style={{ color: 'white' }}>Duration:</label>
                             <input type="number" id="hours" name="length" value={editedMovie.length} onChange={handleChange} />
                         </div>
-                        <button className="btn btn-primary" type="submit">Save</button>
                     </form>
+                </div>
+                <div className="modal-footer">
+                    <button className="btn btn-primary" onClick={handleSave}>Save</button>
                 </div>
             </div>
         </div>
     );
 }
+
 
 function SuccessModal({ message, onClose }) {
     return (
@@ -292,25 +286,6 @@ function SuccessModal({ message, onClose }) {
                 <div className="modal-header">
                     <h3>{message}</h3>
                     <button className="button-close" onClick={onClose}>Close</button>
-                </div>
-            </div>
-        </div>
-    );
-}
-
-function DeleteConfirmationModal({ onConfirmDelete, onClose }) {
-    return (
-        <div className="modal-overlay">
-            <div className="modal">
-                <div className="modal-header">
-                    <h3>Confirm Deletion</h3>
-                </div>
-                <div className="modal-body">
-                    <p>Are you sure you want to delete this movie?</p>
-                </div>
-                <div className="modal-footer">
-                    <button className="btn btn-danger" onClick={onConfirmDelete}>Delete</button>
-                    <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
                 </div>
             </div>
         </div>

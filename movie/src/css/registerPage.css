@@ -1,5 +1,6 @@
-body {
-    background-color: #0f172a;
+.register-main {
+    background-image: url('../../public/assets/images/movie.jpg');
+    background-size: cover;
     color: #c9d1d9;
     font-family: Arial, sans-serif;
     display: flex;
@@ -7,13 +8,15 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    background-blend-mode: overlay;
 }
 
-.register-container{
+.register-container {
     width: 500px;
+    
 }
 
-h2 {
+.title-signup {
     text-align: center;
     color: #fff;
 }
@@ -28,54 +31,108 @@ label {
     font-weight: bold;
 }
 
-input {
-    width: 90%; /* Thay đổi từ 160% thành 90% */
-    max-width: 600px;
+.input {
+    
+    width: 100%;
     padding: 20px;
     border: none;
     border-radius: 5px;
-    background-color: #0d1117;
+    background-color: #0f172a;
     color: #c9d1d9;
-    border: 1px solid #30363d;
+    border: 1px solid #334155;
+    box-sizing: border-box;
 }
 
-input::placeholder {
+.input::placeholder {
     color: #6e7681;
 }
 
-input:focus {
+.input:focus {
     outline: none;
     border-color: #58a6ff;
 }
 
+.password-input-container {
+    position: relative;
+}
+
+
+
+.password-toggle-icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    color: #666;
+    transition: color 0.2s;
+}
+
+.password-toggle-icon:hover {
+    color: #333;
+}
+
 .register-button {
-    width: 98%;
+    width: 100%;
     padding: 15px;
     border: none;
     border-radius: 5px;
-    background: linear-gradient(90deg, rgba(139, 92, 246, 1) 0%, rgba(192, 38, 211, 1) 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(139, 92, 246, 1) 0%,
+      rgba(192, 38, 211, 1) 100%
+    );
     color: #fff;
     font-weight: bold;
     cursor: pointer;
     transition: background 0.3s ease;
-}
+    cursor: pointer;
+    position: relative;
+    padding: 10px 20px;
+    margin-top: 5px;
+    font-size: 28px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    transition: all 1s;
+  }
+  
+  .register-button:after,
+  .register-button:before {
+    content: " ";
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    border: 0px solid #fff;
+    transition: all 1s;
+  }
+  
+  .register-button:after {
+    top: -1px;
+    left: -1px;
+    border-top: 5px solid #4cfff7;
+    border-left: 5px solid #4cfff7;
+  }
+  
+  .register-button:before {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 5px solid #4cfff7;
+    border-right: 5px solid #4cfff7;
+  }
+  
+  .register-button:hover {
+    border-top-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+  
+  .register-button:hover:before,
+  .register-button:hover:after {
+    height: calc(100% + 5px); 
+    width: calc(100% + 5px);  
+  }
 
 .register-button:hover {
     background: linear-gradient(90deg, rgba(192, 38, 211, 1) 0%, rgba(139, 92, 246, 1) 100%);
 }
-
-.password-input-container {
-    position: relative;
-    width: 100%;
-}
-
-.password-toggle-icon {
-    width: 20px;
-    position: absolute;
-    right: 20px; /* Điều chỉnh khoảng cách từ biểu tượng đến biên phải của input */
-    top: 50%; /* Dịch chuyển biểu tượng lên phía trên ô input */
-    transform: translateY(-50%); /* Dịch chuyển biểu tượng lên trên 50% chiều cao của ô input */
-    cursor: pointer;
-    z-index: 1; /* Đảm bảo biểu tượng được hiển thị trên cùng */
-}
-

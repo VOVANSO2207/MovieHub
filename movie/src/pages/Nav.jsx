@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/js/dist/dropdown';
 import 'bootstrap/js/dist/collapse';
-
+import { Link } from 'react-router-dom';
 function Nav({ Toggle }) {
     return (
         <nav className="navbar navbar-expand-sm navbar-dark bg-transparent">
@@ -25,23 +25,7 @@ function Nav({ Toggle }) {
                             <button className="btn" style={{background: '#FF4500'}} type="submit">Search</button>
                         </form>
                     </li>
-                    <li className="nav-item dropdown">
-                        <a
-                            className="nav-link dropdown-toggle text-white"
-                            href="#"
-                            id="dropdownId"
-                            data-bs-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >
-                            Yousof
-                        </a>
-                        <div className="dropdown-menu" aria-labelledby="dropdownId">
-                            <a className="dropdown-item" href="#">Profile</a>
-                            <a className="dropdown-item" href="#">Setting</a>
-                            <a className="dropdown-item" href="#">Logout</a>
-                        </div>
-                    </li>
+                  
                 </ul>
             </div>
         </nav>

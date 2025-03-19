@@ -20,7 +20,7 @@ function Button({ icon, name, bgColor = '#ff3700', color = '#ffffff' }) {
 
     const handleClick = (e) => {
         e.preventDefault();
-        navigate('/dashboard');
+        navigate('/login');
     };
 
     return (

@@ -1,9 +1,11 @@
 // src/pages/DashboardLayout.js
 import React from 'react';
 import Sidebar from './Sidebar';
+// import Header from './Header';
 
 const DashBoardLayout = ({ children, toggle, Toggle }) => (
-  <div className='container-fluid bg-dark min-vh-100' style={{ background: '#161313' }}>
+  
+     <div className='container-fluid bg-dark min-vh-100' style={{ background: '#161313' }}>
     <div className='row'>
       
       {toggle && (
@@ -17,6 +19,8 @@ const DashBoardLayout = ({ children, toggle, Toggle }) => (
       </div>
     </div>
   </div>
+  
+ 
 );
 
 export default DashBoardLayout;
