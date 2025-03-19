@@ -5,12 +5,18 @@ import '../css/style.css';
 function Home({ Toggle }) {
     const [movies, setMovies] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalUsers, setTotalUsers] = useState(0); // State to store the total number of users
     const [selectedMovie, setSelectedMovie] = useState(null); // State to track the selected movie
     const moviesPerPage = 5; // Number of movies per page
 
     useEffect(() => {
         fetchMovies();
+        fetchTotalUsers();
     }, []);
+    const fetchTotalUsers = () => {
+        const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+        setTotalUsers(storedUsers.length);
+    };
 
     const fetchMovies = async () => {
         try {
@@ -101,7 +107,8 @@ function Home({ Toggle }) {
                                         <div key={index}>
                                             <h3 style={{ color: 'black', marginRight: '5px' }} className='fs-2'>{data.label}</h3>
                                             <p style={{ color: 'black' }} className='fs-5'>{data.value}</p>
-                                            <img src={data.image} alt={data.value} style={{ maxWidth: '100px' }} />
+                                            
+                                            <img src={`../assets/movies/${data.image}`} alt={data.value} style={{ maxWidth: '100px', maxHeight: '100px',borderRadius : '10px'}} />
                                         </div>
                                     ))}
                                 </div>
@@ -113,7 +120,7 @@ function Home({ Toggle }) {
                         <div className='p-3 bg-black shadow-sm d-flex justify-content-around align-items-center rounded'>
                             <div className="marquee">
                                 <div className="marquee-content">
-                                    <h3 className='fs-2'>50</h3>
+                                    <h3 className='fs-2'>{totalUsers}</h3>
                                     <p className='fs-5'>Total Users</p>
                                 </div>
                             </div>
@@ -127,6 +134,7 @@ function Home({ Toggle }) {
                     <tr>
                         <th style={{ backgroundColor: '#FFC0CB' }} scope="col">#</th>
                         <th style={{ backgroundColor: '#FFC0CB' }} scope="col">Hình ảnh</th>
+                        <th style={{ backgroundColor: '#FFC0CB' }} scope="col">Video</th>
                         <th style={{ backgroundColor: '#FFC0CB' }} scope="col">Tên phim</th>
                         <th style={{ backgroundColor: '#FFC0CB' }} scope="col">Thể loại</th>
                         <th style={{ backgroundColor: '#FFC0CB' }} scope="col">Ngôn ngữ</th>
@@ -139,8 +147,21 @@ function Home({ Toggle }) {
                         <tr key={index} onClick={() => handleMovieClick(movie)} style={{ cursor: 'pointer' }}>
                             <th scope='row'>{indexOfFirstMovie + index + 1}</th>
                             <td>
-                                <img src={movie.previewImg} alt="Movie Poster" style={{ maxWidth: '100px' }} />
+                            <td><img src={`../assets/movies/${movie.previewImg}`} alt="Movie Poster" style={{ maxWidth: '100px', maxHeight: '100px',borderRadius : '10px' }} /></td>
                             </td>
+                            <td> {movie.video.includes("youtube.com") ? (
+                                <iframe
+                                    src={movie.video}
+                                    controls
+                                    style={{ maxWidth: '200px', maxHeight: '100px' }}
+                                />
+                            ) : (
+                                <video
+                                    src={`../assets/movies/${movie.video}`}
+                                    controls
+                                    style={{ maxWidth: '200px', maxHeight: '200px' , borderRadius : '15px'}}
+                                />
+                            )}</td>
                             <td>{movie.title}</td>
                             <td>{movie.category_name}</td>
                             <td>{movie.language}</td>
@@ -168,7 +189,7 @@ function MovieDetailModal({ movie, onClose }) {
                     <button className="button-close" onClick={onClose}>Close</button>
                 </div>
                 <div className="modal-body4">
-                    <img src={movie.previewImg} alt="Movie Poster" style={{ maxWidth: '40%' }} />
+                    <img src={`../assets/movies/${movie.previewImg}`} alt="Movie Poster" style={{ maxWidth: '40%' }} />
                     <p><strong>Category:</strong> {movie.category_name}</p>
                     <p><strong>Year:</strong> {movie.year}</p>
                     <p><strong>Length:</strong> {movie.length}</p>

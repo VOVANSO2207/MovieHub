@@ -14,7 +14,6 @@
     ;
   
   }
-  
   .modal-overlay1 {
     position: fixed;
     top: 0;
@@ -57,14 +56,14 @@
     height: auto; /* Đảm bảo tỷ lệ khung hình được giữ nguyên */
     margin-bottom: 10px;
   }
-  input[type="text"] {
+  /* input[type="text"] {
     width: 100%; 
     padding: 5px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #2F2F33;
-  }
+  } */
   label {
     /* Thêm các thuộc tính CSS ở đây */
     display: block; /* Hiển thị nhãn trên một dòng mới */
@@ -593,15 +592,11 @@
     animation: marqueeAnimation 20s linear infinite;
   }
   
-  /* @keyframes marqueeAnimation {
-    0% {
-      transform: translateX(0%);
-    }
-    50% {
-      transform: translateX(-50%); 
-    }
-    100% {
-      transform: translateX(-100%); 
-    }
+ /* input[type="text"] {
+    width: 100%; 
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #2F2F33;
   } */
-  

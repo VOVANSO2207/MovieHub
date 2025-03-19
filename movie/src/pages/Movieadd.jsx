@@ -1,4 +1,5 @@
-import React, { useState , useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const languageOptions = [
     { value: 'Vietnamese', label: 'Vietnamese', flag: '🇻🇳' },
@@ -23,25 +24,43 @@ function CreateMovie() {
     const [video, setVideo] = useState(null);
     const [description, setDescription] = useState('');
     const [category, setCategory] = useState('');
-    const [cast, setCast] = useState([]);
     const [successMessage, setSuccessMessage] = useState('');
-    const [showSuccessModal, setShowSuccessModal] = useState(false); // State để kiểm soát việc hiển thị modal thành công
-    const [categoryOptions, setCategoryOptions] = useState([]); // State mới để lưu danh sách thể loại phim
-    const [errorMessage, setErrorMessage] = useState(''); // State mới để lưu thông báo lỗi
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [categoryOptions, setCategoryOptions] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [castOptions, setCastOptions] = useState([]);
+    const [selectedCast, setSelectedCast] = useState([]);
 
     useEffect(() => {
-        // Khi component được mount, cập nhật danh sách thể loại phim từ Local Storage hoặc một nguồn dữ liệu khác
-        const storedCategories = JSON.parse(localStorage.getItem('categories')) || ['Action']; // Mặc định là 'Action' nếu không có dữ liệu
-        setCategoryOptions(storedCategories);
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get('http://localhost:8081/categories');
+                setCategoryOptions(response.data.map(category => category.name));
+            } catch (error) {
+                console.error('Lỗi khi lấy danh sách thể loại phim:', error);
+            }
+        };
+
+        const fetchCastList = async () => {
+            try {
+                const response = await axios.get('http://localhost:8081/actors');
+                setCastOptions(response.data.map(cast => cast.name));
+            } catch (error) {
+                console.error('Lỗi khi lấy danh sách diễn viên:', error);
+            }
+        };
+
+        fetchCategories();
+        fetchCastList();
     }, []);
 
     const handleDrop = (e, type) => {
         e.preventDefault();
         const file = e.dataTransfer.files[0];
         if (type === 'image' && file.type.startsWith('image/')) {
-            setImage(URL.createObjectURL(file));
+            setImage(file);
         } else if (type === 'video' && file.type.startsWith('video/')) {
-            setVideo(URL.createObjectURL(file));
+            setVideo(file);
         }
     };
 
@@ -52,18 +71,12 @@ function CreateMovie() {
     const handleFileChange = (e, type) => {
         const file = e.target.files[0];
         if (type === 'image' && file.type.startsWith('image/')) {
-            setImage(URL.createObjectURL(file));
+            setImage(file);
         } else if (type === 'video' && file.type.startsWith('video/')) {
-            setVideo(URL.createObjectURL(file));
+            setVideo(file);
         }
     };
 
-    const handleCastChange = (e) => {
-        const files = e.target.files;
-        const newCast = Array.from(files).slice(0, 3);
-        setCast([...cast, ...newCast]);
-    };
-   
     const handleLanguageChange = (e) => {
         const selectedLanguages = Array.from(e.target.selectedOptions).map(option => option.value);
         setLanguages(selectedLanguages);
@@ -71,7 +84,7 @@ function CreateMovie() {
 
     const handleTitleChange = (e) => {
         const value = e.target.value;
-        const regex = /^[a-zA-ZÀ-ỹ\s]*$/u; // Chỉ cho phép chữ cái (bao gồm có dấu) và dấu cách
+        const regex = /^[a-zA-ZÀ-ỹ\s]*$/u;
         if (value === "" || regex.test(value)) {
             setMovieTitle(value);
         }
@@ -85,45 +98,31 @@ function CreateMovie() {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleAddMovie = async (e) => {
         e.preventDefault();
-        const movies = JSON.parse(localStorage.getItem('movies')) || [];
-        const movieExists = movies.some(movie => movie.title === movieTitle);
-    
-        if (movieExists) {
-            setErrorMessage('Phim đã tồn tại');
-            setShowSuccessModal(true);
-        } else {
-            const movie = {
-                title: movieTitle,
-                hours: hours,
-                languages: languages.join(', '),
-                year: year,
-                image: image,
-                video: video,
-                description: description,
-                category: category,
-                cast: cast.map(file => URL.createObjectURL(file))
-            };
-    
-            movies.push(movie);
-            localStorage.setItem('movies', JSON.stringify(movies));
-    
-            setSuccessMessage('Thêm thành công');
-    
-            // Cập nhật state category về trạng thái mặc định
-            setCategory('');
-    
-            // Reset các trường khác về trạng thái mặc định
-            setMovieTitle('');
-            setHours('');
-            setLanguages([]);
-            setYear('');
-            setImage(null);
-            setVideo(null);
-            setDescription('');
-            setCast([]);
-            setShowSuccessModal(true);
+
+        try {
+            const formData = new FormData();
+            formData.append('title', movieTitle);
+            formData.append('year', year);
+            formData.append('description', description);
+            formData.append('language', languages.join(', '));
+            formData.append('category_id', categoryOptions.indexOf(category) + 1);
+            formData.append('image', image);
+            formData.append('video', video);
+            formData.append('cast', selectedCast.join(', '));
+
+            const response = await axios.post('http://localhost:8081/movies', formData);
+            console.log(response);
+            if (response.status === 201) {
+                setSuccessMessage('Phim đã được thêm vào thành công.');
+                setShowSuccessModal(true);
+            } else {
+                setErrorMessage('Đã xảy ra lỗi khi thêm phim.');
+            }
+        } catch (error) {
+            console.error('Lỗi khi thêm phim:', error);
+            setErrorMessage('Đã xảy ra lỗi khi thêm phim.');
         }
     };
 
@@ -133,16 +132,21 @@ function CreateMovie() {
         setSuccessMessage('');
     };
 
+    const handleCastChange = (e) => {
+        const selectedCast = Array.from(e.target.selectedOptions).map(option => option.value);
+        setSelectedCast(selectedCast);
+    };
+
     return (
         <div>
             <h1>Create Movie</h1>
             {successMessage && <div style={{ color: 'green' }}>{successMessage}</div>}
             {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleAddMovie}>
                 <div className="row">
                     <div className="col">
                         <label htmlFor="movie-title">Tên phim:</label>
-                        <input style={{ color: 'white' }} type="text" id="movie-title" value={movieTitle} onChange={handleTitleChange} />
+                        <input  type="text" id="movie-title" value={movieTitle} onChange={handleTitleChange} />
                     </div>
                     <div className="col">
                         <label htmlFor="hours">Giờ:</label>
@@ -191,7 +195,7 @@ function CreateMovie() {
                     >
                         {image ? (
                             <img
-                                src={image}
+                                src={URL.createObjectURL(image)}
                                 alt="Hình xem trước"
                                 style={{
                                     maxWidth: '100%',
@@ -224,9 +228,18 @@ function CreateMovie() {
                         onChange={(e) => setCategory(e.target.value)}
                         className="dropdown2"
                     >
-                        {/* Sử dụng danh sách thể loại phim từ state */}
-                        {categoryOptions.map((cat) => (
-                            <option key={cat} value={cat}>{cat}</option>
+                        {categoryOptions.map((cat, index) => (
+                            <option key={index} value={cat}>{cat}</option>
+                        ))}
+                    </select>
+                </div>
+                <div style={{ width: '100%' }}>
+                    <label htmlFor="cast">Danh sách diễn viên:</label>
+                    <select  className="dropdown2" id="cast" multiple={true} value={selectedCast} onChange={handleCastChange}>
+                        {castOptions.map((cast) => (
+                            <option key={cast} value={cast}>
+                                {cast}
+                            </option>
                         ))}
                     </select>
                 </div>
@@ -252,7 +265,7 @@ function CreateMovie() {
                     >
                         {video ? (
                             <video
-                                src={video}
+                                src={URL.createObjectURL(video)}
                                 controls
                                 style={{
                                     maxWidth: '100%',
@@ -272,21 +285,6 @@ function CreateMovie() {
                         onChange={(e) => handleFileChange(e, 'video')}
                     />
                 </div>
-
-                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    <div style={{ width: '50%', boxSizing: 'border-box', padding: '10px' }}>
-                        <label htmlFor="cast" style={{ border: '2px dashed red', padding: '10px', cursor: 'pointer' }}>
-                            THÊM DIỄN VIÊN:
-                            <input type="file" id="cast" onChange={handleCastChange} multiple style={{ display: 'none' }} />
-                        </label>
-                    </div>
-                    <div style={{ width: '50%', display: 'flex', flexWrap: 'wrap' }}>
-                        {cast && cast.map((file, index) => (
-                            <img key={index} src={URL.createObjectURL(file)} alt={`Diễn viên ${index + 1}`} className="cast-image" style={{ width: 'calc(33.33% - 50px)', height: '150px', marginRight: '10px', marginBottom: '10px', objectFit: 'cover' }} />
-                        ))}
-                    </div>
-                </div>
-
                 <div>
                     <input type="submit" value="Xuất bản phim" style={{ backgroundColor: "red", width: "100%", height: "60px" }} />
                 </div>

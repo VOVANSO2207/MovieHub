@@ -1,7 +1,7 @@
 const navListData = [
     {
         _id: 1,
-        link: '#',
+        link: '/',
         name: 'home',
         active: true,
     },

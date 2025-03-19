@@ -1,0 +1,44 @@
+/* RESPONSIVE CAC THIET BI MAN HINH  */
+@media (min-width: 992px) {
+ 
+}
+/* Tablet & mobile  */
+@media (max-width: 991.98px){
+   
+  
+    
+}
+
+/*  Tablet*/
+@media (min-width: 768px) and (max-width: 991.98px){
+    .banner .trailer p {
+        display: none;
+    }
+
+}
+/* mobile */
+@media (max-width: 767.98px){
+  .cardMovie{
+    flex: 0 0 50%;
+  }
+  .schedule .filters li {
+    padding: 10px !important;
+  }
+  .trend-card a{
+    font-size: 0.6rem !important;
+  }
+  .trend-card ion-icon{
+    scale: 3;
+  }
+  section .movie-card .content h4{
+    font-size: 0.8rem;
+    white-space: unset;
+    padding: 0 10px;
+  }
+  .navbar-brand{
+    z-index: 9999;
+  }
+  .vh-100{
+    z-index: 9999;
+  }
+}

@@ -4,7 +4,9 @@
     list-style: none;
     gap: 10px;
     margin-top: 50px;
+    padding-left: 0;
 }
+
 .schedule .filters li {
     color: #ffffff;
     padding: 10px 25px;
@@ -12,8 +14,50 @@
     transition: 0.3s;
     text-transform: uppercase;
     cursor: pointer;
+    margin-bottom: 8px;
+    text-align: center;
+    border-radius: 4px;
 }
-.schedule .filters li:hover,
-.schedule .filters li.active{
+
+.schedule .filters li:hover, 
+.schedule .filters li.active {
     background: var(--primary);
+}
+
+/* Mobile responsive styles */
+@media screen and (max-width: 768px) {
+    .schedule .filters {
+        gap: 5px;
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 15px; 
+        scroll-padding: 0 10px;
+    }
+    
+    .schedule .filters::-webkit-scrollbar {
+        height: 4px;
+    }
+    
+    .schedule .filters::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border-radius: 4px;
+    }
+    
+    .schedule .filters li {
+        padding: 8px 15px;
+        font-size: 0.85rem;
+        white-space: nowrap; /* Prevent text wrapping */
+        flex: 0 0 auto; /* Don't grow or shrink */
+    }
+}
+
+/* For very small screens */
+@media screen and (max-width: 480px) {
+    .schedule .filters li {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
 }

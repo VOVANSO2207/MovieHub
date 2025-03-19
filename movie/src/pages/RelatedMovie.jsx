@@ -3,8 +3,8 @@ import { Swiper,SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Autoplay } from 'swiper/modules';
-import TrendCard from '../components/TrendCard';
 import '../css/relatedMovie.css';
+import TrendCardMovie from '../components/TrendCardMovie';
 function RelatedMovie  (){
     const [slides,setSlides] = useState([]);
     const fetchData = () => {
@@ -20,10 +20,10 @@ function RelatedMovie  (){
         fetchData();
     }, []);
   return (
-   <section id="trend" className='trend'>
+   <section id="relatedMovies" className='relatedMovies'>
         <div className="container">
             <div className="row">
-                <h4 className="section-title">Related Movies</h4>
+                <h4 className="section-title-related">Related Movies</h4>
             </div>
             <div className="row">
                 <Swiper
@@ -58,7 +58,7 @@ function RelatedMovie  (){
                         {
                             slides && slides.length > 0 && slides.map(slide => (
                                 <SwiperSlide key={slide._id}>
-                                        <TrendCard slide={slide}></TrendCard>
+                                        <TrendCardMovie slide={slide}></TrendCardMovie>
                                 </SwiperSlide>
                             ))
                         }

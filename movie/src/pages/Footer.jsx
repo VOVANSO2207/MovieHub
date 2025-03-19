@@ -26,10 +26,10 @@ function Footer() {
                 <div className="row gy-4">
                     <div className="col-lg-5 col-md-12 footer-info">
                         <a href="/" className="logo d-flex align-items-center">
-                            <span>CINEMA</span>
+                            <span>MOVIE.NET</span>
                         </a>
                         <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, debitis libero cumque neque nemo doloremque deserunt nam perferendis, iure qui exercitationem aperiam soluta beatae magnam quo. Cum omnis ab quae!
+                       All rights reserved. Watch your favorite movies and discover new ones with us. Dive into a world of endless entertainment, where every genre awaits to captivate you. Whether it's action-packed adventures, heartwarming dramas, or spine-chilling thrillers, we have something for everyone. Thank you for being a part of our cinematic journey!
                         </p>
                         <div className="social-links mt-3">
                             <a href="#" className="twitter">
